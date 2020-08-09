@@ -1,0 +1,20 @@
+function chpwd_test() {
+  echo "chpwd"
+}
+function periodic_test() {
+  echo "periodic"
+}
+function preexec_test() {
+  echo "preexec"
+  echo $(pwd) //デバッグ用
+  if [[ $(pwd) =~ ".*kani.*$" ]]; then
+    echo "kani_directory"
+    source /Users/masa-pro/project/tmd/kani/.kani/test2.sh
+  fi
+}
+
+autoload -Uz add-zsh-hook
+PERIOD=60
+add-zsh-hook chpwd chpwd_test
+add-zsh-hook periodic periodic_test
+add-zsh-hook preexec preexec_test

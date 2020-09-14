@@ -45,9 +45,6 @@ void select_sort(int sort_num[N]){
       sort_num[max_index] = tmp;
     }
   }
-  for(int i=0; i<N; i++){
-    printf("%d ", sort_num[i]);
-  }
 }
 
 int main(void){

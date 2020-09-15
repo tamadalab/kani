@@ -10,12 +10,12 @@ void show_data(int sort_num[N]){
 
 void bubble_sort(int sort_num[N]){
   printf("バブルソート\n");
-  // 最後の要素を除いて、すべての要素を並べ替えます
+  // 最後の要素を除いて、すべての要素を並べ替える
   for(int i=0; i<N-1; i++){
     show_data(sort_num);
     // 下から上に順番に比較します
     for(int j=N-1; j>i; j--){
-      // 上の方が大きいときは互いに入れ替えます
+      // 上の方が大きいときは互いに入れ替える
       if(sort_num[j]<sort_num[j-1]){
         int t = sort_num[j];
         sort_num[j] = sort_num[j-1];
@@ -28,7 +28,7 @@ void bubble_sort(int sort_num[N]){
 void select_sort(int sort_num[N]){
   printf("選択ソート\n");
   int max_index = 0;
-  for(int i = 0;i < N-1 ; i++){   
+  for(int i = 0; i<N-1 ; i++){   
     show_data(sort_num);
     max_index = i;
     //  現在の状況で、最大の値の入っているインデックスの位置を探す
@@ -37,7 +37,7 @@ void select_sort(int sort_num[N]){
         max_index = j;
       }
     }
-    //  先頭要素より、大きい値があれば、入れ替える。
+    //  先頭要素より、大きい値があれば、入れ替える
     if(max_index != i){
       //  値の入れ替え
       int tmp = sort_num[i];

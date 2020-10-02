@@ -127,6 +127,7 @@ func removeFromProjectList(projectDir, projectsList string) error {
 		writer.Write([]byte(project))
 		writer.Write([]byte("\r\n"))
 	}
+	return nil
 }
 
 func deinitializeKani(projectDir string) error {

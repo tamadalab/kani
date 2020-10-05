@@ -17,7 +17,11 @@ var initCmd = &cobra.Command{
 	Short: "git kani init",
 	Long:  "initialize kani",
 	Run: func(cmd *cobra.Command, args []string) {
-		runInitializeKani(initializeKani)
+		if len(args) == 1 && args[0] == "-" {
+			printZshInitializer()
+		} else {
+			runInitializeKani(initializeKani)
+		}
 	},
 }
 var deinitCmd = &cobra.Command{
@@ -136,6 +140,25 @@ func deinitializeKani(projectDir string) error {
 		removeFromProjectList(projectDir, projectsList)
 	}
 	return nil
+}
+
+func printZshInitializer() {
+	fmt.Println(`
+function __kani_chpwd_hook() {
+  /usr/local/opt/kani/scripts/chpwd_hook.sh
+}
+function __kani_periodic_hook() {
+  /usr/local/opt/kani/scripts/periodic_hook.sh
+}
+function preexec_test() {
+  /usr/local/opt/kani/scripts/preexec_hook.sh
+}
+
+autoload -Uz add-zsh-hook
+PERIOD=60
+add-zsh-hook chpwd    __kani_chpwd_hook
+add-zsh-hook periodic __kani_periodic_hook
+add-zsh-hook preexec  __kani_preexec_hook`)
 }
 
 func init() {

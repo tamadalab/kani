@@ -58,10 +58,10 @@ $ git kani deinit
 ## インストール方法
 
 ```sh
-$ brew install ma-sa321/kani/kani
+$ brew install tamadalab/bre/kani
 ```
 
-上記コマンドにて，以下のようなディレクトリが作成される（予定）．
+上記コマンドにて，以下のようなディレクトリが作成される．
 
 ```sh
 /usr/local/Celler/kani
@@ -71,9 +71,15 @@ $ brew install ma-sa321/kani/kani
 ├── scripts # ユーティリティスクリプト
 │   ├── find-project-dir.sh
 │   └── is-target-project.sh
-├── analyses
-│   └── 分析用のスクリプト
-└── zshrc.txt
+└── analyses
+    └── 分析用のスクリプト
+```
+
+`zshrc.txt` に書かれていた内容は，`git kani init -` で出力するようにしました．
+そのため，`~/.zshrc` の最後に，次の1行を追加すればOKにするようにしました．
+
+```sh
+eval $(git kani init -)
 ```
 
 ## 実装情報

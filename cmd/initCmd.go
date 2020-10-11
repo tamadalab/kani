@@ -150,7 +150,7 @@ function __kani_chpwd_hook() {
 function __kani_periodic_hook() {
   /usr/local/opt/kani/scripts/periodic_hook.sh
 }
-function preexec_test() {
+function __kani_preexec_hook() {
   /usr/local/opt/kani/scripts/preexec_hook.sh
 }
 

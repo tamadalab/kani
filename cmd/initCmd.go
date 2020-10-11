@@ -151,6 +151,7 @@ function __kani_periodic_hook() {
   /usr/local/opt/kani/scripts/periodic_hook.sh
 }
 function __kani_preexec_hook() {
+  echo "preexec"
   /usr/local/opt/kani/scripts/preexec_hook.sh
 }
 

@@ -159,7 +159,8 @@ autoload -Uz add-zsh-hook
 PERIOD=60
 add-zsh-hook chpwd    __kani_chpwd_hook
 add-zsh-hook periodic __kani_periodic_hook
-add-zsh-hook preexec  __kani_preexec_hook`)
+add-zsh-hook preexec  __kani_preexec_hook
+`)
 }
 
 func init() {

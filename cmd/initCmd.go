@@ -145,15 +145,15 @@ func deinitializeKani(projectDir string) error {
 func printZshInitializer() {
 	fmt.Println(`
 function __kani_preexec_hook() {
-	/usr/local/opt/kani/scripts/chpwd_hook.sh
-	echo "preexec_before"
-	/usr/local/opt/kani/scripts/preexec_hook.sh
-	echo "preexec_after"
+	/usr/local/opt/kani/scripts/is-target-project.sh
+	echo $?
+	if [[ $? -eq 0 ]]; then #存在しなかった
+		/usr/local/opt/kani/analyses/analyses.sh
+  fi
 }
 
 autoload -Uz add-zsh-hook
 PERIOD=60
-
 add-zsh-hook preexec  __kani_preexec_hook
 `)
 }

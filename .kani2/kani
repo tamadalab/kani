@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+if [[ $* == *"test"* ]]; then
+  cmd="python3 test.py"
+  eval $cmd
+  exit 1
+fi

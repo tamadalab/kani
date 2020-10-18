@@ -146,10 +146,6 @@ func printZshInitializer() {
 	fmt.Println(`
 function __kani_preexec_hook() {
 	/usr/local/opt/kani/scripts/is-target-project.sh
-	echo $?
-	if [[ $? -eq 0 ]]; then #存在しなかった
-		/usr/local/opt/kani/analyses/analyses.sh
-  fi
 }
 
 autoload -Uz add-zsh-hook

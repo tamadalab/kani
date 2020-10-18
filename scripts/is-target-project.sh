@@ -41,6 +41,7 @@ function is_enable_kani() {
     then
         exit 1
     fi
+    /usr/local/opt/kani/analyses/analyses.sh # 対象プロジェクトの場合分析用shellを走らせる．
 }
 
 project_dir=$($SCRIPT_DIR/find-project-dir.sh $PWD)

@@ -1,30 +1,39 @@
 import glob
-import os
-# import subprocess
+# import os
+import subprocess
+import csv
 
 # カレントディレクトリのファイルを検索し，ファイル行数を取得する．
-
+PATH = '/usr/local/opt/kani/analyses/'
 
 def search_analyses_file():
-  # ファイルの検索する用のパスを返す．
-  path=os.getcwd()
+  # commitすべき状態か判断する．
 
-  # files = os.listdir(path)
-  # file = [f for f in files if os.path.isfile(os.path.join(path, f))]
-  # print(file)
+  with open('{PATH}diff_lines.csv') as data:
+    lines = csv.reader(data)
+    criteria = 5 # 判定基準
+    flag = 0 # 基準を超えたものが有る場合，commitにいついての表示を出すため1にする．
+    for line in lines:
+      total_line = int(line[0])+int(line[1])
+      if total_line > criteria:
+        show_message(line[2],total_line,criteria)
+        index = 1
 
-  path += '/*.txt' # デバッグ状態 本番環境は.cに変更
-  return path
+    if index == 1:
+      f = open(f'{PATH}guide_commit.txt','r',encoding='UTF-8')
+      data = f.read()
+      print(data)
+      f.close()
+
+def show_message(file_name,total_line,criteria):
+  # commitを提案する行数を超えたので，メッセージを表示する．
+  print(f'{file_name}の編集した行数が{total_line}行になったので，Commitをお勧めします．')
 
 
-def search_line_count(path):
-  # ファイル行数を出力
-  
-  for f in glob.glob(path):
-    print(os.path.split(f)[1])
-    print(sum([1 for _ in open(os.path.split(f)[1])]))
-  return
+def search_diff_line():
+  # 差分のあるファイルを取得し，csvで出力する．
+  result = subprocess.run("git diff --numstat | awk -v OFS=, '{print $1,$2,$3}' > /usr/local/opt/kani/analyses/diff_lines.csv", shell=True, text=True)
 
 
-path = search_analyses_file()
-search_line_count(path)
+search_diff_line()
+search_analyses_file()

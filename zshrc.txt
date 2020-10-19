@@ -13,6 +13,7 @@ function preexec_test() {
   fi
 }
 
+
 autoload -Uz add-zsh-hook
 PERIOD=60
 add-zsh-hook chpwd chpwd_test

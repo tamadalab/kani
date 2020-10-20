@@ -145,8 +145,7 @@ func deinitializeKani(projectDir string) error {
 func printZshInitializer() {
 	fmt.Println(`
 function __kani_preexec_hook() {
-	pyc="python3 /usr/local/opt/kani/analyses/analyses.py"
-  eval $pyc
+	/usr/local/opt/kani/scripts/preexec_hook.sh
 }
 
 autoload -Uz add-zsh-hook

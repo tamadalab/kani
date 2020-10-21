@@ -144,12 +144,17 @@ func deinitializeKani(projectDir string) error {
 
 func printZshInitializer() {
 	fmt.Println(`
+
+function __kani_precmd_hook() {
+	/usr/local/opt/kani/scripts/precmd_hook.sh $? # 終了ステータスを渡す．
+}	
 function __kani_preexec_hook() {
-	/usr/local/opt/kani/scripts/preexec_hook.sh
+	/usr/local/opt/kani/scripts/preexec_hook.sh "$1"
 }
 
 autoload -Uz add-zsh-hook
 PERIOD=60
+add-zsh-hook precmd 	__kani_precmd_hook
 add-zsh-hook preexec  __kani_preexec_hook
 `)
 }

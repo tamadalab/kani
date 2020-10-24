@@ -13,13 +13,10 @@ function record_command() {
 
 
 $KANI_HOME/scripts/is-target-project.sh
-if [[ $? -ne 0 ]]
-then
+if [[ $? -ne 0 ]]; then
     exit 0
 else
     record_command $1
-    pyc="python3 $KANI_HOME/analyses/analyses.py"
-    eval $pyc
 fi
 
 # echo "hooked preexec on project $project_dir"

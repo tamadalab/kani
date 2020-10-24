@@ -2,9 +2,15 @@ import glob
 # import os
 import subprocess
 import csv
+import sys
+
 
 # カレントディレクトリのファイルを検索し，ファイル行数を取得する．
 PATH = '/usr/local/opt/kani/analyses/'
+
+def search_diff_line():
+  # 差分のあるファイルを取得し，csvで出力する．
+  result = subprocess.run("git diff --numstat | awk -v OFS=, '{print $1,$2,$3}' > /usr/local/opt/kani/analyses/diff_lines.csv", shell=True, text=True)
 
 def search_analyses_file():
   # commitすべき状態か判断する．
@@ -26,14 +32,16 @@ def search_analyses_file():
       f.close()
 
 def show_message(file_name,total_line,criteria):
-  # commitを提案する行数を超えたので，メッセージを表示する．
+  # commitを提案する行数を超えたら，メッセージを表示する．
   print(f'{file_name}の編集した行数が{total_line}行になったので，Commitをお勧めします．')
 
-
-def search_diff_line():
-  # 差分のあるファイルを取得し，csvで出力する．
-  result = subprocess.run("git diff --numstat | awk -v OFS=, '{print $1,$2,$3}' > /usr/local/opt/kani/analyses/diff_lines.csv", shell=True, text=True)
-
+def search_error_count():
+  # エラーのカウント数を受け取り，表示の処理を行う．
+  count = int(sys.argv[1])
+  print(count) # デバッグ用
+  if count >= 4:
+    print('エラーがようやく直ったね！やったね！')
 
 search_diff_line()
 search_analyses_file()
+search_error_count()

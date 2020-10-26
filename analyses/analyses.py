@@ -24,9 +24,7 @@ def search_analyses_file():
       if total_line > criteria:
         show_message(line[2],total_line,criteria)
         flag = 1
-        print(flag)
-
-
+      
     if flag == 1:
       f = open(f'{PATH}guide_commit.txt','r',encoding='UTF-8')
       data = f.read()
@@ -40,13 +38,11 @@ def show_message(file_name,total_line,criteria):
 def search_error_count():
   # エラーのカウント数を受け取り，表示の処理を行う．
   count = int(sys.argv[1])
-  print(count) # デバッグ用
   if count >= 4:
     print('連続したエラーが修正されたので，Commitをお勧めします．')
     return 1  
   else:
     return 0
 
-print("python")
 search_diff_line()
 search_analyses_file()

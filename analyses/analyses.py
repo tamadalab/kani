@@ -18,12 +18,14 @@ def search_analyses_file():
   with open(f'{PATH}diff_lines.csv') as data:
     lines = csv.reader(data)
     criteria = 5 # 判定基準
-    flag = 0 # 基準を超えたものが有る場合，commitにいついての表示を出すため1にする．
+    flag = search_error_count() # 基準を超えたものが有る場合，commitにいついての表示を出すため1にする．
     for line in lines:
       total_line = int(line[0])+int(line[1])
       if total_line > criteria:
         show_message(line[2],total_line,criteria)
         flag = 1
+        print(flag)
+
 
     if flag == 1:
       f = open(f'{PATH}guide_commit.txt','r',encoding='UTF-8')
@@ -40,8 +42,11 @@ def search_error_count():
   count = int(sys.argv[1])
   print(count) # デバッグ用
   if count >= 4:
-    print('エラーがようやく直ったね！やったね！')
+    print('連続したエラーが修正されたので，Commitをお勧めします．')
+    return 1  
+  else:
+    return 0
 
+print("python")
 search_diff_line()
 search_analyses_file()
-search_error_count()

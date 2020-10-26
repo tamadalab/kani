@@ -152,7 +152,6 @@ function __kani_precmd_hook() {
 	/usr/local/opt/kani/scripts/precmd_hook.sh $? # 終了ステータスを渡す．
 }
 
-HISTTIMEFORMAT=%%H:%M:%S
 autoload -Uz add-zsh-hook
 PERIOD=60
 add-zsh-hook preexec  __kani_preexec_hook

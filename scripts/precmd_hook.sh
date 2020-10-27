@@ -2,10 +2,10 @@
 
 KANI_HOME=/usr/local/opt/kani
 PROJECT_DIR=$($KANI_HOME/scripts/find-project-dir.sh)
-FAILURES_DIR=$PROJECT_DIR/.kani2/failures_compilation
+FAILURES_DIR=$PROJECT_DIR/.kani/failures_compilation
 
 function find_previous_command() {
-    prev_cmd=$PROJECT_DIR/.kani2/prev_cmd
+    prev_cmd=$PROJECT_DIR/.kani/prev_cmd
     if [[ -f $prev_cmd ]]; then
         cat $prev_cmd # 内容を確認する．
         rm $prev_cmd  # 読み出し後，削除する．

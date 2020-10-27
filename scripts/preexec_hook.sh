@@ -8,7 +8,7 @@ function record_command() {
     if [[ $# -eq 0 ]]; then
         return
     fi
-    echo "$@" > $PROJECT_DIR/.kani2/prev_cmd
+    echo "$@" > $PROJECT_DIR/.kani/prev_cmd
 }
 
 

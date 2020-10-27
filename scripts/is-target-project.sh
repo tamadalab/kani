@@ -40,6 +40,8 @@ function is_enable_kani() {
     if [[ -d $project_dir/.kani/disable ]]
     then
         exit 1
+    else
+        exit 0
     fi
 }
 

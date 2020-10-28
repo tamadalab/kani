@@ -1,10 +1,5 @@
 # Git操作補助ツールkani
 
-### 被験者向け資料とアンケート
-https://docs.google.com/document/d/1hgXWROmRVbgKUdC_ZP-yALivhzJZqZsT9qCH2Hid9UY/edit
-
-https://forms.gle/bwwfnxGBhycjTd8a6
-
 ### テスト用テンプレートリポジトリとGitHubClassroomの部屋
 https://github.com/tmdlab2020TestTeam/testTemplate
 

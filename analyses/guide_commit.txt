@@ -7,18 +7,15 @@
 *** "git add 追加したいファイルの相対パス" ***
   commitしたいファイルを指定します．
   特定のディレクトリ以下全てのファイルを選択したい場合，そのディレクトリのパスにするとまとめて選択できます．
-  (例)
-    hoge_directory/
-      ├- test.c
-      ├- other1.c
-      └- other2.c
-    git add hoge_directory とすると，test.c other1.c other2.cが含まれます．
+  (例) hoge_directory/
+       ├- test.c
+       └- other1.c
+    git add hoge_directory とすると，test.c other1.cが含まれます．
     git add hoge_directory/test.c とすると,test.cが含まれます．
     
 *** "git commit -m "メッセージ"" ***
   どういった変更を加えたのかがわかるようにタイトルをつけます．
-  (例)"〇〇の機能を実装しました"や"〇〇のエラーを直しました"
-   　 "【実装】〇〇機能 "や"【修正】〇〇のエラー "    
+  (例)"〇〇の機能を実装しました"や"〇〇のエラーを直しました"，"【実装】〇〇機能 "や"【修正】〇〇のエラー "    
 
 *** "git push origin 現在のブランチ名" ***
   今作業しているのは"ローカルリポジトリ"と言い，PCで作業するためのローカルな環境です．

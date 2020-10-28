@@ -3,6 +3,10 @@
 ### 被験者向け資料
 https://docs.google.com/document/d/1hgXWROmRVbgKUdC_ZP-yALivhzJZqZsT9qCH2Hid9UY/edit
 
+### テスト用テンプレートリポジトリとGitHubClassroomの部屋
+https://github.com/tmdlab2020TestTeam/testTemplate
+https://classroom.github.com/classrooms/73564814-tmdlab2020testteam-githubclassroom/assignments/tmdlab-test-team
+
 # kani
 
 初学者のgit学習を支援するためのプロジェクト．

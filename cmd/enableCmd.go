@@ -51,10 +51,10 @@ func disableKani(flag bool) {
 			fmt.Println(err.Error())
 			return
 		}
-		fmt.Println("disable kani")
+		fmt.Println("kaniが無効化されました．")
 	} else {
 		os.Remove(disableFile)
-		fmt.Println("enable kani")
+		fmt.Println("kaniが有効になりました．")
 	}
 }
 

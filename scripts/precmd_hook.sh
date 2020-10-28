@@ -17,7 +17,8 @@ if [[ $? -ne 0 ]]; then
     exit 0
 else
     prevcmd=$(find_previous_command)
-    echo "prev cmd: $prevcmd, status: $1" # (デバッグ用)終了ステータスは $1.
+    echo "$(date "+%H:%M:%S") $prevcmd" >> $PROJECT_DIR/.kani/test.log
+    # echo "prev cmd: $prevcmd, status: $1" # (デバッグ用)終了ステータスは $1.
     count=0 # エラーのカウント
     if [[ $prevcmd =~ gcc* || $prevcmd =~ clang* && $1 -ne 0 ]]; then # 終了ステータスが正常0以外の時，回数をカウントする．
       # hogeの所gccに変更する．

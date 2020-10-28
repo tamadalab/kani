@@ -58,7 +58,8 @@ $ git kani deinit
 ## インストール方法
 
 ```sh
-$ brew install tamadalab/bre/kani
+$ brew tap tamadalab/brew
+$ brew install kani
 ```
 
 上記コマンドにて，以下のようなディレクトリが作成される．
@@ -66,13 +67,18 @@ $ brew install tamadalab/bre/kani
 ```sh
 /usr/local/Celler/kani
 ├── README.md
+├── analyses
+│   ├── analyses.py
+│   └── guide_commit.txt
 ├── bin
 │   └── git-kani
-├── scripts # ユーティリティスクリプト
-│   ├── find-project-dir.sh
-│   └── is-target-project.sh
-└── analyses
-    └── 分析用のスクリプト
+└── scripts # ユーティリティスクリプト
+    ├── chpwd_hook.sh
+    ├── periodic_hook.sh
+    ├── precmd_hook.sh
+    ├── preexec_hook.sh
+    ├── find-project-dir.sh
+    └── is-target-project.sh
 ```
 
 `zshrc.txt` に書かれていた内容は，`git kani init -` で出力するようにしました．
@@ -81,22 +87,3 @@ $ brew install tamadalab/bre/kani
 ```sh
 eval $(git kani init -)
 ```
-
-## 実装情報
-
-### `git kani` を実現するには．
-
-https://qiita.com/b4b4r07/items/6b76a5f969231e5e9748
-
-`git-kani` コマンドを用意し，環境変数`PATH`の通ったところに置いておくと `git kani` コマンドが有効になる．
-`git kani init` を実行することで，`$HOME/.conf/kani/projects` に`.git`ディレクトリのパスのリストを書き込んでおく．
-
-開発時には，`PATH=bin:$PATH git kani hogehoge` で確認してね．
-
-玉田の書きやすい言語のGoで書きました．．．
-このような機能が欲しいなどあれば言ってもらえると追加します．
-
-### `brew install ma-sa321/kani/kani` ができるようにするには．
-
-`homebrew-kani` プロジェクトを作成し，`kani.rb` を用意する．
-`kani.rb` の中身は今度書きます．

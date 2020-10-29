@@ -19,9 +19,9 @@ var enableCmd = &cobra.Command{
 }
 
 var disableCmd = &cobra.Command{
-	Use:   "enable",
-	Short: "git kani enable",
-	Long:  "enable kani",
+	Use:   "disable",
+	Short: "git kani disable",
+	Long:  "disable kani",
 	Run: func(cmd *cobra.Command, args []string) {
 		disableKani(true)
 	},

@@ -28,7 +28,7 @@ else
       count=$(wc -l $FAILURES_DIR)
       rm $FAILURES_DIR
     fi
-    if [[ !-e $PROJECT_DIR/.kani/disable]]; then
+    if [[ ! -e $PROJECT_DIR/.kani/disable ]]; then
       pyc="python3 $KANI_HOME/analyses/analyses.py $count"
       eval $pyc
     fi

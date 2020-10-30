@@ -17,7 +17,7 @@ def search_analyses_file():
 
   with open(f'{PATH}diff_lines.csv') as data:
     lines = csv.reader(data)
-    criteria = 5 # 判定基準
+    criteria = 3 # 判定基準
     flag = search_error_count() # 基準を超えたものが有る場合，commitにいついての表示を出すため1にする．
     for line in lines:
       total_line = int(line[0])+int(line[1])
@@ -38,7 +38,7 @@ def show_message(file_name,total_line,criteria):
 def search_error_count():
   # エラーのカウント数を受け取り，表示の処理を行う．
   count = int(sys.argv[1])
-  if count >= 4:
+  if count >= 3:
     print('連続したエラーが修正されたので，Commitをお勧めします．')
     return 1  
   else:

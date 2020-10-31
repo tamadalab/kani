@@ -17,9 +17,6 @@ if [[ $? -ne 0 ]]; then
     exit 0
 else
     prevcmd=$(find_previous_command)
-    datecmd=$(date "+%H:%M:%S")
-    echo "$datecmd $prevcmd" >> $PROJECT_DIR/.kani/test.log
-    echo "ログ記録中 : $datecmd"
     # echo "prev cmd: $prevcmd, status: $1" # (デバッグ用)終了ステータスは $1.
     count=0 # エラーのカウント初期化
     if [[ $prevcmd =~ gcc* || $prevcmd =~ clang* && $1 -ne 0 ]]; then # 終了ステータスが正常0以外の時，回数をカウントする．

@@ -9,6 +9,9 @@ function record_command() {
         return
     fi
     echo "$@" > $PROJECT_DIR/.kani/prev_cmd
+    datecmd=$(date "+%H:%M:%S")
+    echo "$datecmd $@" >> $PROJECT_DIR/.kani/test.log
+    echo "ログ記録中 : 最終更新 $datecmd"
 }
 
 

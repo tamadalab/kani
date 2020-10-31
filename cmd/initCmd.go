@@ -47,7 +47,7 @@ func runInitializeKani(initializer func(dir string) error) {
 	if err := initializer(projectDir); err != nil {
 		fmt.Println(err.Error())
 	}
-	fmt.Println("kaniが導入されました!")
+	fmt.Println("このプロジェクトをツールの対象に設定しました")
 }
 
 func createKaniDirectory(projectDir string) error {

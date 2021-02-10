@@ -1,6 +1,6 @@
 # Git操作補助ツールkani
 
-### テスト用テンプレートリポジトリとGitHubClassroomの部屋
+### 評価実験用テンプレートリポジトリとGitHubClassroomの部屋
 https://github.com/tmdlab2020TestTeam/testTemplate
 
 https://classroom.github.com/classrooms/73564814-tmdlab2020testteam-githubclassroom/assignments/tmdlab-test-team

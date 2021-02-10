@@ -1,39 +1,27 @@
 # Git操作補助ツールkani
+## 本ツールは2020年度特別研究IIで作成
+https://github.com/tamadalab/2020bthesis_masuda
+### 実装機能概要
+- コンパイル時にcommit差分を比較し，規定値以上の変更があった場合commitを促す．
+- 連続したエラーが解消された時点で，commitを促す．
+- commitを促す際，add commit pushの簡易にhelp表示する．
 
-### 評価実験用テンプレートリポジトリとGitHubClassroomの部屋
+### 未修正点
+- エラー情報を蓄積するDBが1つに集約されているため，ファイルAのエラーが修正されないまま別ファイルを実行すると，ファイルAのエラー情報の影響を受ける．
+- コンパイルはgccとclangの場合と手動で制限している[該当ファイル](https://github.com/tamadalab/kani/blob/master/scripts/precmd_hook.sh)．
+- .gitフォルダが上位ディレクトリにない場合，.git無いよとエラー出る(操作には影響ない)．
+- 正直スパゲッティになってるファイルがある．
+
+
+
+## 評価実験用
+#### テンプレートリポジトリ
 https://github.com/tmdlab2020TestTeam/testTemplate
-
+#### GitHubClassroom[GitHub Classroomとは](http://takehiroman.hatenablog.com/entry/2016/03/31/135736)
 https://classroom.github.com/classrooms/73564814-tmdlab2020testteam-githubclassroom/assignments/tmdlab-test-team
 
-# kani
 
-初学者のgit学習を支援するためのプロジェクト．
-
-
-* `scripts` 以下に分析用のスクリプトを準備する．
-    * 本番環境では，`/usr/local/Cellar/kani/scripts` 以下にインストールされる．
-* `git kani init`で対象プロジェクトを`kani`での分析対象とする．
-* `git kani disable/enable` で分析の一時停止/再開を行う．
-* `git kani deinit` で対象プロジェクトを分析対象から外す．
-
-* zsh のフックには，`kani/scripts` 以下のスクリプトを絶対パスで指定すると良いと思います．
-    * `git kani init` を実行すると，`analyses` ディレクトリの内容が `PROJECT_ROOT/.kani/analyses`にコピーされますが，コピーせず，`kani/scripts`内のスクリプトを呼び出せば良いかと思います．
-
-* `PROJECT_ROOT/.kani` には，分析結果のデータを収集日を添えて入れておくと良いのではないかと思います．
-
-## 使い方
-
-### プロジェクトでの初期設定
-
-```sh
-$ git kani init
-```
-
-* 上記のコマンドで `.git` と同じディレクトリに `.kani` ディレクトリが作成される．
-    * `.kani` ディレクトリには，`analyses`ディレクトリにあるスクリプトがコピーされる．
-    * 将来的に，`analyses`は不要かもしれない
-* `$HOME/.config/kani/projects` にプロジェクトのパスが追記される．
-
+# kaniの機能詳細
 ### 分析の一時停止/再開
 
 ```sh
@@ -51,14 +39,9 @@ $ git kani deinit
 
 * `$HOME/.config/kani/projects`からプロジェクトのパスが削除される．
 
-## ヘルパースクリプト
-
-* `find-project-dir.sh` 現在のディレクトリからプロジェクトのルートを取得するスクリプト．
-* `is-target-project.sh` 現在のディレクトリのプロジェクトがkaniの分析対象かどうかを判定するスクリプト．
-    * 終了ステータス（`$?`）で判断する．詳細は，スクリプトの冒頭を確認してください．
-
-## インストール方法
-
+    
+## 導入方法
+### Homebrewからkaniをインストールする
 ```sh
 $ brew tap tamadalab/brew
 $ brew install kani
@@ -70,17 +53,17 @@ $ brew install kani
 /usr/local/Celler/kani
 ├── README.md
 ├── analyses
-│   ├── analyses.py
-│   └── guide_commit.txt
+│   ├── analyses.py (どういった条件でcommitを促すか決める所)
+│   └── guide_commit.txt (commitを促す際の文)
 ├── bin
 │   └── git-kani
-└── scripts # ユーティリティスクリプト
-    ├── chpwd_hook.sh
+└── scripts # ユーティリティスクリプト(hook関数)
+    ├── chpwd_hook.sh
     ├── periodic_hook.sh
     ├── precmd_hook.sh
     ├── preexec_hook.sh
-    ├── find-project-dir.sh
-    └── is-target-project.sh
+    ├── find-project-dir.sh (現在のディレクトリからプロジェクトのルートを取得するスクリプト)
+    └── is-target-project.sh (現在のディレクトリのプロジェクトがkaniの分析対象かどうかを判定するスクリプト)
 ```
 
 `zshrc.txt` に書かれていた内容は，`git kani init -` で出力するようにしました．
@@ -89,3 +72,17 @@ $ brew install kani
 ```sh
 eval $(git kani init -)
 ```
+
+hook関数については[この資料](https://qiita.com/mollifier/items/558712f1a93ee07e22e2)を参照してください．
+
+### 利用したいディレクトリにkaniを適応させる
+
+```sh
+$ git kani init
+```
+
+* 上記のコマンドで `.git` と同じディレクトリに `.kani` ディレクトリが作成される．
+    * `.kani` ディレクトリには，`analyses`ディレクトリにあるスクリプトがコピーされる．
+* `$HOME/.config/kani/projects` にプロジェクトのパスが追記される．
+
+* `PROJECT_ROOT/.kani` には，分析結果のデータを格納している．

@@ -39,7 +39,7 @@ $ git kani deinit
 
 * `$HOME/.config/kani/projects`からプロジェクトのパスが削除される．
 
-    
+
 ## 導入方法
 ### Homebrewからkaniをインストールする
 ```sh
@@ -53,8 +53,8 @@ $ brew install kani
 /usr/local/Celler/kani
 ├── README.md
 ├── analyses
-│   ├── analyses.py (どういった条件でcommitを促すか決める所)
-│   └── guide_commit.txt (commitを促す際の文)
+│   ├── recommend.py (どういった条件でcommitを促すか決める所)
+│   └── commit_guide.txt (commitを促す際の文)
 ├── bin
 │   └── git-kani
 └── scripts # ユーティリティスクリプト(hook関数)

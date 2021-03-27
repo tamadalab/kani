@@ -2,40 +2,40 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>:house: Home on kani</title>
-    <link>https://tamadalab.github.io/purplecat/</link>
+    <link>https://tamadalab.github.io/kani/</link>
     <description>Recent content in :house: Home on kani</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="https://tamadalab.github.io/purplecat/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tamadalab.github.io/kani/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>:anchor: Install</title>
-      <link>https://tamadalab.github.io/purplecat/install/</link>
+      <link>https://tamadalab.github.io/kani/install/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://tamadalab.github.io/purplecat/install/</guid>
+      <guid>https://tamadalab.github.io/kani/install/</guid>
       <description>📣 Notice kani runs on zsh, not work on bash, now.
 🍺 Homebrew brew tap tamadalab/brew brew install kani 💪 Compiling yourself go get github.com/tamadalab/kani </description>
     </item>
     
     <item>
       <title>:red_car: How to work</title>
-      <link>https://tamadalab.github.io/purplecat/how_to_work/</link>
+      <link>https://tamadalab.github.io/kani/how_to_work/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://tamadalab.github.io/purplecat/how_to_work/</guid>
+      <guid>https://tamadalab.github.io/kani/how_to_work/</guid>
       <description>Mechanism for recoding inside the kani Using zsh hook mechanism for recoding.
 Directory layout of kani kani ├── README.md ├── analyses │ ├── recommend.py (decision of recommendation) │ └── commit_guide.txt (recommendation text) ├── bin │ └── git-kani └── scripts # utility scripts (includes hook function) ├── chpwd_hook.sh ├── periodic_hook.sh ├── precmd_hook.sh ├── preexec_hook.sh ├── find-project-dir.sh (script for finding the project root from the current directory) └── is-target-project.sh (script for checking the current directory is the target of kani) </description>
     </item>
     
     <item>
       <title>:runner: Usage</title>
-      <link>https://tamadalab.github.io/purplecat/usage/</link>
+      <link>https://tamadalab.github.io/kani/usage/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://tamadalab.github.io/purplecat/usage/</guid>
+      <guid>https://tamadalab.github.io/kani/usage/</guid>
       <description>Initialization Before using kani, write the following snippet into your .zshrc.
 eval &amp;#34;$(git kani init -)&amp;#34; Enable kani on your git repository. Run the following command in your git repository.
 git kani init Then, kani creates .kani folder on the top of your git repository (same as .git folder).</description>
@@ -43,10 +43,10 @@ git kani init Then, kani creates .kani folder on the top of your git repository 
     
     <item>
       <title>:smile: About</title>
-      <link>https://tamadalab.github.io/purplecat/about/</link>
+      <link>https://tamadalab.github.io/kani/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://tamadalab.github.io/purplecat/about/</guid>
+      <guid>https://tamadalab.github.io/kani/about/</guid>
       <description>📜 License 
  The person who associated a work with this deed has dedicated the work to the public domain by waiving all of his or her rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law.
 You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission. See Other Information below.

@@ -3,15 +3,17 @@
 KANI_HOME=/usr/local/opt/kani
 PROJECT_DIR=$($KANI_HOME/scripts/find-project-dir.sh)
 
-# .kani/prev_cmd に前回実行したコマンドを記録しておく．
+# record the previous command to .kani/prev_cmd.
 function record_command() {
     if [[ $# -eq 0 ]]; then
         return
     fi
     echo "$@" > $PROJECT_DIR/.kani/prev_cmd
     datecmd=$(date "+%H:%M:%S")
-    echo "$datecmd $@" >> $PROJECT_DIR/.kani/test.log
-    echo "ログ記録中 : 最終更新 $datecmd"
+    branch=$(git describe --contains --all HEAD)
+    commitId=$(git rev-parse HEAD)
+    echo -n "$datecmd,$@,$branch,$commitId" >> $PROJECT_DIR/.kani/test.log
+    # echo "recoding: last update $datecmd"
 }
 
 

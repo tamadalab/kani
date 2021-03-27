@@ -7,8 +7,7 @@ import (
 )
 
 func helpMessage() string {
-	return `
-git kani init       initialize kani for the current project.
+	return `git kani init       initialize kani for the current project.
 git kani deinit     deinitialize kani of the project.
 git kani enable     enable kani.
 git kani disable    disable kani.`

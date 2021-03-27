@@ -47,7 +47,7 @@ func runInitializeKani(initializer func(dir string) error) {
 	if err := initializer(projectDir); err != nil {
 		fmt.Println(err.Error())
 	}
-	fmt.Println("このプロジェクトをツールの対象に設定しました")
+	fmt.Printf("%s: set as the target project of kani", projectDir)
 }
 
 func createKaniDirectory(projectDir string) error {
@@ -144,20 +144,17 @@ func deinitializeKani(projectDir string) error {
 }
 
 func printZshInitializer() {
-	fmt.Println(`
-	
-function __kani_preexec_hook() {
+	fmt.Println(`function __kani_preexec_hook() {
 	/usr/local/opt/kani/scripts/preexec_hook.sh "$1"
 }
 function __kani_precmd_hook() {
-	/usr/local/opt/kani/scripts/precmd_hook.sh $? # 終了ステータスを渡す．
+	/usr/local/opt/kani/scripts/precmd_hook.sh $? # pass the exit status.
 }
 
 autoload -Uz add-zsh-hook
 PERIOD=60
 add-zsh-hook preexec  __kani_preexec_hook
-add-zsh-hook precmd 	__kani_precmd_hook
-`)
+add-zsh-hook precmd   __kani_precmd_hook`)
 }
 
 func init() {

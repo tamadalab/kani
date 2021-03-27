@@ -1,2 +1,2 @@
 build: bin/git-kani
-	go build -o bin/git-kani git-kani.go
+	go build -o kani git-kani.go

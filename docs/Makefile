@@ -1,7 +1,7 @@
 PWD := ${CURDIR}
 DOCKER_IMAGE_NAME := "wwwpc"
 CONTAINER_REMOVE_FLAG := "--rm"
-BASE_URL := "https://tamadalab.github.io/purplecat"
+BASE_URL := "https://tamadalab.github.io/kani"
 HUGO_THEME := "cayman-hugo-theme"
 JOJOMI_VERSION := 0.69.0
 

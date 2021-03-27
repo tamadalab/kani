@@ -6,8 +6,6 @@ title: ":red_car: How to work"
 
 Using zsh hook mechanism for recoding.
 
-
-
 ## Directory layout of `kani`
 
 ```sh

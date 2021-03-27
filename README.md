@@ -70,7 +70,7 @@ $ brew install kani
 そのため，`~/.zshrc` の最後に，次の1行を追加すればOKにするようにしました．
 
 ```sh
-eval $(git kani init -)
+eval "$(git kani init -)"
 ```
 
 hook関数については[この資料](https://qiita.com/mollifier/items/558712f1a93ee07e22e2)を参照してください．

@@ -23,7 +23,7 @@ Note that `kani` means crab in Japanese.
 
 ## :woman_office_worker: Developers :man_office_worker:
 
-* [Arisa Masuda](https://github.com/ma-sa)
+* [Arisa Masuda](https://github.com/ma-sa321)
 * [Haruaki Tamada](https://github.com/tamada)
 
 ## :books: References

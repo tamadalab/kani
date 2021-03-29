@@ -18,7 +18,7 @@ var initCmd = &cobra.Command{
 	Long:  "initialize kani",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 1 && args[0] == "-" {
-			printZshInitializer()
+			printShellInitializer()
 		} else {
 			runInitializeKani(initializeKani)
 		}
@@ -143,21 +143,45 @@ func deinitializeKani(projectDir string) error {
 	return nil
 }
 
+func printShellInitializer() {
+	shell := os.Getenv("SHELL")
+	if strings.HasSuffix(shell, "zsh") {
+		printZshInitializer()
+	} else if strings.HasSuffix(shell, "bash") || strings.HasSuffix(shell, "/sh") {
+		printBashInitializer()
+	}
+}
+
+func printBashInitializer() {
+	fmt.Println(`function __kaniHookFunc() {
+	if [[ ! -e ~/.bash-preexec.sh ]]; then
+		echo "kani on bash requires rcaloras/bash-preexec (https://github.com/rcaloras/bash-preexec)"
+		echo "Run 'curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'"
+	else
+		exec $@
+	fi
+}
+source ~/.bash-preexec.sh
+preexec() {
+	__kaniHookFunc /usr/local/opt/kani/scripts/preexec_hook.sh "$1"
+}
+precmd() {
+	__kaniHookFunc /usr/local/opt/kani/scripts/precmd_hook.sh $?
+}`)
+}
+
 func printZshInitializer() {
-	fmt.Println(`
-	
-function __kani_preexec_hook() {
+	fmt.Println(`function __kani_preexec_hook() {
 	/usr/local/opt/kani/scripts/preexec_hook.sh "$1"
 }
 function __kani_precmd_hook() {
-	/usr/local/opt/kani/scripts/precmd_hook.sh $? # 終了ステータスを渡す．
+	/usr/local/opt/kani/scripts/precmd_hook.sh $? # gives the status code
 }
 
 autoload -Uz add-zsh-hook
 PERIOD=60
 add-zsh-hook preexec  __kani_preexec_hook
-add-zsh-hook precmd 	__kani_precmd_hook
-`)
+add-zsh-hook precmd   __kani_precmd_hook`)
 }
 
 func init() {

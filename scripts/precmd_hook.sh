@@ -1,7 +1,7 @@
-#! /bin/zsh
+#! /bin/sh
 
-KANI_HOME=/usr/local/opt/kani
-PROJECT_DIR=$($KANI_HOME/scripts/find-project-dir.sh)
+script_dir=$(dirname $0)
+PROJECT_DIR=$(${script_dir}/find-project-dir.sh)
 FAILURES_DIR=$PROJECT_DIR/.kani/failures_compilation
 
 function find_previous_command() {
@@ -12,44 +12,19 @@ function find_previous_command() {
     fi
 }
 
-$KANI_HOME/scripts/is-target-project.sh
+function store_db() {
+    prevcmd="$1"
+    status=$2
+    revision=$(git rev-parse HEAD)
+    branch=$(git symbolic-ref HEAD)
+    $script_dir/store_db.sh $PROJECT_DIR/.kani/kani.sqlite "$prevcmd" $status $branch $revision
+}
+
+${script_dir}/is-target-project.sh
 if [[ $? -ne 0 ]]; then
     exit 0
 else
     prevcmd=$(find_previous_command)
-    # echo "prev cmd: $prevcmd, status: $1" # (デバッグ用)終了ステータスは $1.
-    count=0 # エラーのカウント初期化
-    if [[ $prevcmd =~ gcc* || $prevcmd =~ clang* && $1 -ne 0 ]]; then # 終了ステータスが正常0以外の時，回数をカウントする．
-      # hogeの所gccに変更する．
-      echo "$prevcmd : $1" >> $FAILURES_DIR # 失敗回数をカウントするように記述していく．
-      echo "error : status $1" >> $PROJECT_DIR/.kani/test.log 
-    elif [[ $prevcmd =~ gcc* || $prevcmd =~ clang* && $1 -eq 0 && -e $FAILURES_DIR ]]; then # エラーが直った場合，連続エラー回数を記録してファイルを削除
-      count=$(wc -l $FAILURES_DIR)
-      rm $FAILURES_DIR
-    fi
-    if [[ ! -e $PROJECT_DIR/.kani/disable ]]; then
-      pyc="python3 $KANI_HOME/analyses/analyses.py $count"
-      eval $pyc
-    fi
+    # echo "prev cmd: \"$prevcmd\", status: $1" # (デバッグ用)終了ステータスは $1.
+    store_db "$prevcmd" $1
 fi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

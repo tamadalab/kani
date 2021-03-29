@@ -8,7 +8,7 @@
 #     3なら.gitディレクトリが見つからないこと
 # を表す．
 
-GREP=grep 
+GREP=grep
 # GREP=rg
 SCRIPT_DIR=$(dirname $0)
 
@@ -26,9 +26,9 @@ function is_target_dir() {
         exit 2
     fi
 
-    # ~/.config/kani/projects に project_dir が存在するかを確認する．
-    grep --silent $project_dir $HOME/.config/kani/projects 
-    if [[ $? -ne 0 ]] # 存在しなかった
+    # does include project_dir in ~/.config/kani/projects?
+    grep --silent $project_dir $HOME/.config/kani/projects
+    if [[ $? -ne 0 ]] # not exist
     then
         exit 2
     fi
@@ -36,7 +36,7 @@ function is_target_dir() {
 
 function is_enable_kani() {
     project_dir=$1
-    # $project_dir/.kani/disable が存在するかを確認する．
+    # does exists $project_dir/.kani/disable?
     if [[ -d $project_dir/.kani/disable ]]
     then
         exit 1
@@ -50,4 +50,3 @@ project_dir=$($SCRIPT_DIR/find-project-dir.sh $PWD)
 is_git_dir_not_found $project_dir
 is_target_dir $project_dir
 is_enable_kani $project_dir
-

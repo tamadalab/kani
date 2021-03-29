@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/tamada/kani/utils"
 )
@@ -143,45 +144,95 @@ func deinitializeKani(projectDir string) error {
 	return nil
 }
 
+func findKaniHome() (string, error) {
+	entries := []string{
+		os.Getenv("KANI_HOME"),
+		"/usr/local/opt/kani",
+		"$(HOME)/go/src/github.com/tamada/kani",
+		"$(HOME)/go/src/github.com/tamadalab/kani",
+	}
+	homeDir, err := homedir.Dir()
+	if err != nil {
+		return "", err
+	}
+	for _, entry := range entries {
+		kaniHome := strings.ReplaceAll(entry, "$(HOME)", homeDir)
+		stat, err := os.Stat(kaniHome)
+		if err == nil && stat.Mode().IsDir() {
+			return kaniHome, nil
+		}
+	}
+	return "", fmt.Errorf("KANI_HOME did not found.")
+}
+
 func printShellInitializer() {
 	shell := os.Getenv("SHELL")
+	kaniHome, err := findKaniHome()
+	if err != nil {
+		fmt.Printf("kani: %s", err.Error())
+	}
 	if strings.HasSuffix(shell, "zsh") {
-		printZshInitializer()
+		printZshInitializer(kaniHome)
 	} else if strings.HasSuffix(shell, "bash") || strings.HasSuffix(shell, "/sh") {
-		printBashInitializer()
+		printBashInitializer(kaniHome)
 	}
 }
 
-func printBashInitializer() {
-	fmt.Println(`function __kaniHookFunc() {
-	if [[ ! -e ~/.bash-preexec.sh ]]; then
-		echo "kani on bash requires rcaloras/bash-preexec (https://github.com/rcaloras/bash-preexec)"
-		echo "Run 'curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'"
-	else
-		exec $@
-	fi
-}
-source ~/.bash-preexec.sh
-preexec() {
-	__kaniHookFunc /usr/local/opt/kani/scripts/preexec_hook.sh "$1"
-}
-precmd() {
-	__kaniHookFunc /usr/local/opt/kani/scripts/precmd_hook.sh $?
-}`)
+func messageInstallingBashPreexec() string {
+	return `kani on bash requires rcaloras/bash-preexec (https://github.com/rcaloras/bash-preexec)
+Please run 'curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'`
 }
 
-func printZshInitializer() {
-	fmt.Println(`function __kani_preexec_hook() {
-	/usr/local/opt/kani/scripts/preexec_hook.sh "$1"
+func isInstalledBashPreexec() bool {
+	home, err := homedir.Dir()
+	if err != nil {
+		return false
+	}
+	path := filepath.Join(home, ".bash-preexec.sh")
+	stat, err := os.Stat(path)
+	return err == nil && stat.Mode().IsRegular()
+}
+
+func printBashInitializer(kaniHome string) {
+	if !isInstalledBashPreexec() {
+		fmt.Printf(`echo "%s"
+`, messageInstallingBashPreexec())
+		return
+	}
+	fmt.Printf(`source ~/.bash-preexec.sh
+preexec() {
+  if [[ ! -e ~/.bash-preexec.sh ]]; then
+    echo "%s"
+    return
+  else
+    %s/scripts/preexec_hook.sh "$1"
+  fi
+}
+precmd() {
+  status=($?)
+  if [[ ! -e ~/.bash-preexec.sh ]]; then
+    echo "%s"
+    return
+  else
+    %s/scripts/precmd_hook.sh $status
+  fi
+}
+`, messageInstallingBashPreexec(), kaniHome, messageInstallingBashPreexec(), kaniHome)
+}
+
+func printZshInitializer(kaniHome string) {
+	fmt.Printf(`function __kani_preexec_hook() {
+  %s/scripts/preexec_hook.sh "$1"
 }
 function __kani_precmd_hook() {
-	/usr/local/opt/kani/scripts/precmd_hook.sh $? # gives the status code
+  %s/scripts/precmd_hook.sh $? # gives the status code
 }
 
 autoload -Uz add-zsh-hook
 PERIOD=60
 add-zsh-hook preexec  __kani_preexec_hook
-add-zsh-hook precmd   __kani_precmd_hook`)
+add-zsh-hook precmd   __kani_precmd_hook
+`, kaniHome, kaniHome)
 }
 
 func init() {

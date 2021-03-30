@@ -1,7 +1,7 @@
 #! /bin/zsh
 
-KANI_HOME=/usr/local/opt/kani
-PROJECT_DIR=$($KANI_HOME/scripts/find-project-dir.sh)
+script_dir=$(dirname $0)
+PROJECT_DIR=$($script_dir/find-project-dir.sh)
 
 # .kani/prev_cmd に前回実行したコマンドを記録しておく．
 function record_command() {
@@ -9,13 +9,10 @@ function record_command() {
         return
     fi
     echo "$@" > $PROJECT_DIR/.kani/prev_cmd
-    datecmd=$(date "+%H:%M:%S")
-    echo "$datecmd $@" >> $PROJECT_DIR/.kani/test.log
-    echo "ログ記録中 : 最終更新 $datecmd"
 }
 
 
-$KANI_HOME/scripts/is-target-project.sh
+$script_dir/is-target-project.sh
 if [[ $? -ne 0 ]]; then
     exit 0
 else

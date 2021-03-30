@@ -18,4 +18,4 @@ Run the following command in your git repository.
 git kani init
 ```
 
-Then, `kani` creates `.kani` folder on the top of your git repository (same as `.git` folder).
+Then, `kani` creates `.kani` directory on the top of your git repository (same location as `.git` directory).

@@ -25,15 +25,9 @@ function is_target_dir() {
         exit 2
     fi
 
-<<<<<<< HEAD
     # determine if ~/.config/kani/projects contains project_dir.
     grep --silent $project_dir $HOME/.config/kani/projects
     if [[ $? -ne 0 ]] # not found.
-=======
-    # does include project_dir in ~/.config/kani/projects?
-    grep --silent $project_dir $HOME/.config/kani/projects
-    if [[ $? -ne 0 ]] # not exist
->>>>>>> master
     then
         exit 2
     fi
@@ -41,11 +35,7 @@ function is_target_dir() {
 
 function is_enable_kani() {
     project_dir=$1
-<<<<<<< HEAD
     # determine if $project_dir/.kani/disable exist.
-=======
-    # does exists $project_dir/.kani/disable?
->>>>>>> master
     if [[ -d $project_dir/.kani/disable ]]
     then
         exit 1

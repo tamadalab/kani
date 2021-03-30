@@ -38,7 +38,7 @@ func FindProjectDir(basePath string) (string, error) {
 		}
 		path = filepath.Dir(path)
 	}
-	return "", fmt.Errorf("%s: project directory not found")
+	return "", fmt.Errorf("%s: project directory not found", basePath)
 }
 
 func KaniHome() (string, error) {

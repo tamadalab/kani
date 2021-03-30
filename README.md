@@ -86,3 +86,7 @@ $ git kani init
 * `$HOME/.config/kani/projects` にプロジェクトのパスが追記される．
 
 * `PROJECT_ROOT/.kani` には，分析結果のデータを格納している．
+
+## Requirements
+
+* [rcaloras/bash-preexec](https://github.com/rcaloras/bash-preexec)

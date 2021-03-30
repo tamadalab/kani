@@ -1,12 +1,11 @@
-#! /bin/zsh
+#! /bin/sh
 
-KANI_HOME=/usr/local/opt/kani
+script_dir=$(dirname $0)
 
-$KANI_HOME/scripts/is-target-project.sh
-if [[ $? -ne 0 ]]
-then
+${script_dir}/is-target-project.sh
+if [[ $? -ne 0 ]]; then
     exit 0
 fi
 
-project_dir=$($KANI_HOME/scripts/find-project-dir.sh)
+project_dir=$(${script_dir}/find-project-dir.sh)
 echo "hooked periodic on project $project_dir"

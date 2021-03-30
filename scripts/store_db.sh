@@ -4,22 +4,26 @@ script_dir=$(dirname $0)
 
 function initialize_db() {
     echo "CREATE TABLE histories ( \
-  id       INTEGER PRIMARY KEY, \
-  datetime TEXT    DEFAULT CURRENT_TIMESTAMP, \
-  command  TEXT    NOT NULL, \
-  status   INTEGER NOT NULL, \
-  branch   TEXT, \
-  revision TEXT  \
+  id          INTEGER PRIMARY KEY, \
+  datetime    TEXT    DEFAULT CURRENT_TIMESTAMP, \
+  command     TEXT    NOT NULL, \
+  status_code INTEGER NOT NULL, \
+  branch      TEXT, \
+  revision    TEXT, \
+  shell       TEXT  \
 );" |  sqlite3 $1
 }
 
 function store_db() {
-    echo "INSERT INTO histories (command, status, branch, revision) \
+    currentShell=$SHELL # how to get executing shell?
+    # echo $0 returns script name, therefore, not suitable.
+    echo "INSERT INTO histories (command, status_code, branch, revision, shell) \
   VALUES ( \
     '$2', \
     $3,     \
     \"$4\", \
-    \"$5\" \
+    \"$5\", \
+    \"$currentShell\"
   );" | sqlite3 $1
 }
 

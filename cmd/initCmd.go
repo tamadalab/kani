@@ -209,12 +209,12 @@ preexec() {
   fi
 }
 precmd() {
-  status=($?)
+  statusCode=($?)
   if [[ ! -e ~/.bash-preexec.sh ]]; then
     echo "%s"
     return
   else
-    %s/scripts/precmd_hook.sh $status
+    %s/scripts/precmd_hook.sh $statusCode
   fi
 }
 `, messageInstallingBashPreexec(), kaniHome, messageInstallingBashPreexec(), kaniHome)

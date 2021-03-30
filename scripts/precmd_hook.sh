@@ -2,7 +2,7 @@
 
 script_dir=$(dirname $0)
 PROJECT_DIR=$(${script_dir}/find-project-dir.sh)
-FAILURES_DIR=$PROJECT_DIR/.kani/failures_compilation
+# FAILURES_DIR=$PROJECT_DIR/.kani/failures_compilation
 
 function find_previous_command() {
     prev_cmd=$PROJECT_DIR/.kani/prev_cmd
@@ -14,10 +14,10 @@ function find_previous_command() {
 
 function store_db() {
     prevcmd="$1"
-    status=$2
+    statusCode=$2
     revision=$(git rev-parse HEAD)
     branch=$(git symbolic-ref HEAD)
-    $script_dir/store_db.sh $PROJECT_DIR/.kani/kani.sqlite "$prevcmd" $status $branch $revision
+    $script_dir/store_db.sh $PROJECT_DIR/.kani/kani.sqlite "$prevcmd" $statusCode $branch $revision
 }
 
 ${script_dir}/is-target-project.sh

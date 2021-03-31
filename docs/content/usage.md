@@ -2,20 +2,26 @@
 title: ":runner: Usage"
 ---
 
-## Initialization
+### :shoe: Initialization
 
-Before using `kani`, write the following snippet into your `.zshrc`.
-
-```sh
-eval "$(git kani init -)"
-```
-
-## Enable `kani` on your git repository.
-
-Run the following command in your git repository.
+At first, write the following snippet in your login shell initializer (`.bashrc`, or `.zshrc`)
 
 ```sh
-git kani init
+eval "$(kani init -)"
 ```
 
-Then, `kani` creates `.kani` directory on the top of your git repository (same location as `.git` directory).
+### :running_shirt_with_sash: Setup repository
+
+* Choose your `git` repositories to run `kani`,
+* Change directory to your local `git` repository,
+* Run `kani init` command for preparing the `kani` running on the repository.
+
+### :coffee: Stop `kani` temporarily in a particular repository
+
+If want to stop recoding command temporary, run `kani disable` (`kani` creates a `disable` file on `.kani` directory).
+Then, want to start recoding again, run `kani enable`.
+
+### :broken_heart: Stop `kani`  permanently in a particular repository
+
+If typing `kani deinit` in a particular repository, kani never records anymore.
+After that, typing `kani init`, `kani` starts recoding again.

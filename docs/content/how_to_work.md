@@ -37,6 +37,7 @@ kani
 Also, `kani` creates `.kani` directory on the project root (same location as `.git` directory).
 The `kani` stores various recorded data into `.kani` directory, such as command line histories (`kani.sqlite`), previous command (`prev_cmd`), and etc.
 
+
 ## Database
 
 ### Schema

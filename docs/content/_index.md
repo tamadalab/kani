@@ -2,6 +2,13 @@
 title: ":house: Home"
 ---
 
+[![License](https://img.shields.io/badge/License-CC0--1.0-blue?logo=spdx)](https://creativecommons.org/publicdomain/zero/1.0/)
+[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/tamadalab/kani/releases/tag/v1.0.0)
+
+[![tamada/brew/wildcat](https://img.shields.io/badge/Homebrew-tamadalab%2Fbrew%2Fkani-green?logo=homebrew)](https://github.com/tamadalab/homebrew-brew)
+
+[![Discussion](https://img.shields.io/badge/GitHub-Discussion-orange?logo=GitHub)](https://github.com/tamadalab/kani/discussions)
+
 ## :speaking_head: Overview
 
 Learning the git and GitHub operation is difficult for novice programmers.
@@ -15,6 +22,26 @@ From above two manners, we expect the novices accustomed `git`.
 
 The proposed system, named `kani`, records the terminal's executed commands and runs the recommendation engine by each recoding.
 The recommendation engine analyzes the histories of the executed commands with their status codes and statuses of `git`.
+
+## :speech_balloon: Description
+
+### :wind_chime: Features
+
+* Records the executed command in your terminal in your repository,
+* Runs analysis scripts by each command execution,
+    * Recommends the timing of `git commit`, and `git push`.
+* Shows simple usage of `git commit` and `git push`.
+
+### :checkered_flag: Goal of `kani`
+
+`kani` recommends the operations of git and GitHub from behaviors of novices in the terminal.
+Therefore, the goal of `kani` is to become unnecessary for novices, like walking assist instrument for babies.
+For this, `kani` wants to measure git/GitHub operation maturity rates (GOMR) for the novices.
+GOMR would measure by the following methods.
+
+* Matching rates with the behaviors of experts (recording beforehand)
+* Following rates of Git flow, GitHub flow, or GitLab flow.
+
 
 
 ## :speaking_head: 概要（Japanese version of [Overview](#-overview)）

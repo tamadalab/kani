@@ -16,8 +16,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://tamadalab.github.io/kani/install/</guid>
-      <description>📣 Notice kani runs on zsh, not work on bash, now.
-🍺 Homebrew brew tap tamadalab/brew brew install kani 💪 Compiling yourself go get github.com/tamadalab/kani </description>
+      <description>📣 Notice kani runs on zsh, and bash only. Not work on other shells (csh, ksh, fish, &amp;hellip;).
+📌 Requirements  rcaloras/bash-preexec  Runs kani on bash environment.    🍺 Homebrew (macOS) Type the following two commands, then kani will be installed into your /usr/local/opt/kani
+brew tap tamadalab/brew brew install kani 💪 Install yourself  Clone the kani repository from GitHub (tamadalab/kani).  git clone https://github.com/tamadalab/kani.git   Move to the cloned kani directory.</description>
     </item>
     
     <item>
@@ -26,8 +27,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://tamadalab.github.io/kani/how_to_work/</guid>
-      <description>Mechanism for recoding inside the kani Using zsh hook mechanism for recoding.
-Directory layout of kani kani ├── README.md ├── analyses │ ├── recommend.py (decision of recommendation) │ └── commit_guide.txt (recommendation text) ├── bin │ └── git-kani └── scripts # utility scripts (includes hook function) ├── chpwd_hook.sh ├── periodic_hook.sh ├── precmd_hook.sh ├── preexec_hook.sh ├── find-project-dir.sh (script for finding the project root from the current directory) └── is-target-project.sh (script for checking the current directory is the target of kani) </description>
+      <description>Mechanism for recoding inside the kani Using bash/zsh hook mechanism for recoding. Note that kani runs on bash, you must install rcaloras/bash-preexec.
+Directory layout of kani KANI_HOME The directory layout of KANI_HOME is like below.
+kani ├── README.md ├── analyses │ ├── recommend.py (decision of recommendation) │ └── commit_guide.txt (recommendation text) ├── bin │ └── git-kani └── scripts # utility scripts (includes hook function) ├── chpwd_hook.sh ├── periodic_hook.sh ├── precmd_hook.sh ├── preexec_hook.</description>
     </item>
     
     <item>
@@ -36,9 +38,8 @@ Directory layout of kani kani ├── README.md ├── analyses │ ├─�
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://tamadalab.github.io/kani/usage/</guid>
-      <description>Initialization Before using kani, write the following snippet into your .zshrc.
-eval &amp;#34;$(git kani init -)&amp;#34; Enable kani on your git repository. Run the following command in your git repository.
-git kani init Then, kani creates .kani folder on the top of your git repository (same as .git folder).</description>
+      <description>👞 Initialization At first, write the following snippet in your login shell initializer (.bashrc, or .zshrc)
+eval &amp;#34;$(kani init -)&amp;#34; 🎽 Setup repository  Choose your git repositories to run kani, Change directory to your local git repository, Run kani init command for preparing the kani running on the repository.  ☕ Stop kani temporarily in a particular repository If want to stop recoding command temporary, run kani disable (kani creates a disable file on .</description>
     </item>
     
     <item>
@@ -50,7 +51,7 @@ git kani init Then, kani creates .kani folder on the top of your git repository 
       <description>📜 License 
  The person who associated a work with this deed has dedicated the work to the public domain by waiving all of his or her rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law.
 You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission. See Other Information below.
- 🎃 Logo This image comes from https://freesvg.</description>
+ 📃 Cite kani 🎃 Logo This image comes from https://freesvg.</description>
     </item>
     
   </channel>

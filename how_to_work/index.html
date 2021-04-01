@@ -86,8 +86,11 @@
     
   <h1>🚗 How to work</h1>
   <h2 id="mechanism-for-recoding-inside-the-kani">Mechanism for recoding inside the <code>kani</code></h2>
-<p>Using zsh hook mechanism for recoding.</p>
+<p>Using bash/zsh hook mechanism for recoding.
+Note that <code>kani</code> runs on <code>bash</code>, you must install <a href="https://github.com/rcaloras/bash-preexec"><code>rcaloras/bash-preexec</code></a>.</p>
 <h2 id="directory-layout-of-kani">Directory layout of <code>kani</code></h2>
+<h3 id="kani_home"><code>KANI_HOME</code></h3>
+<p>The directory layout of <code>KANI_HOME</code> is like below.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kani
 ├── README.md
 ├── analyses
@@ -100,8 +103,94 @@
     ├── periodic_hook.sh
     ├── precmd_hook.sh
     ├── preexec_hook.sh
-    ├── find-project-dir.sh <span style="color:#f92672">(</span>script <span style="color:#66d9ef">for</span> finding the project root from the current directory<span style="color:#f92672">)</span>
-    └── is-target-project.sh <span style="color:#f92672">(</span>script <span style="color:#66d9ef">for</span> checking the current directory is the target of kani<span style="color:#f92672">)</span>
+    ├── find-project-dir.sh  <span style="color:#75715e"># script for finding the project root from the current directory</span>
+    ├── is-target-project.sh <span style="color:#75715e"># script for checking the current directory is the target of kani</span>
+    └── store_db.sh          <span style="color:#75715e"># script for storing the command line histories into the database.</span>
+</code></pre></div><h3 id="kani-on-the-project-root"><code>.kani</code> on the project root.</h3>
+<p>Also, <code>kani</code> creates <code>.kani</code> directory on the project root (same location as <code>.git</code> directory).
+The <code>kani</code> stores various recorded data into <code>.kani</code> directory, such as command line histories (<code>kani.sqlite</code>), previous command (<code>prev_cmd</code>), and etc.</p>
+<h2 id="database">Database</h2>
+<h3 id="schema">Schema</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Primary</th>
+<th>Null</th>
+<th>Default</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>INTEGER</td>
+<td>Yes</td>
+<td>No</td>
+<td>N/A</td>
+<td></td>
+</tr>
+<tr>
+<td>datetime</td>
+<td>TEXT</td>
+<td>No</td>
+<td>No</td>
+<td>CURRENT_TIMESTAMP</td>
+<td>UTC</td>
+</tr>
+<tr>
+<td>command</td>
+<td>TEXT</td>
+<td>No</td>
+<td>No</td>
+<td>&quot;&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>status_code</td>
+<td>INTEGER</td>
+<td>No</td>
+<td>No</td>
+<td>&quot;&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>branch</td>
+<td>TEXT</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>revision</td>
+<td>TEXT</td>
+<td>No</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>shell</td>
+<td>shell</td>
+<td>No</td>
+<td>No</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="create-table"><code>CREATE TABLE</code></h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> histories ( <span style="color:#960050;background-color:#1e0010">\</span>
+  id          INTEGER <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>, <span style="color:#960050;background-color:#1e0010">\</span>
+  datetime    TEXT    <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>, <span style="color:#960050;background-color:#1e0010">\</span>
+  command     TEXT    <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>, <span style="color:#960050;background-color:#1e0010">\</span>
+  status_code INTEGER <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>, <span style="color:#960050;background-color:#1e0010">\</span>
+  branch      TEXT, <span style="color:#960050;background-color:#1e0010">\</span>
+  revision    TEXT, <span style="color:#960050;background-color:#1e0010">\</span>
+  shell       TEXT  <span style="color:#960050;background-color:#1e0010">\</span>
+)<span style="color:#f92672">```</span>
 </code></pre></div>
 
     <footer class="site-footer">

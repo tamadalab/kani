@@ -85,13 +85,21 @@
   <section class="main-content">
     
   <h1>🏃‍♂️ Usage</h1>
-  <h2 id="initialization">Initialization</h2>
-<p>Before using <code>kani</code>, write the following snippet into your <code>.zshrc</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">eval <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>git kani init -<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
-</code></pre></div><h2 id="enable-kani-on-your-git-repository">Enable <code>kani</code> on your git repository.</h2>
-<p>Run the following command in your git repository.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git kani init
-</code></pre></div><p>Then, <code>kani</code> creates <code>.kani</code> folder on the top of your git repository (same as <code>.git</code> folder).</p>
+  <h3 id="-initialization">👞 Initialization</h3>
+<p>At first, write the following snippet in your login shell initializer (<code>.bashrc</code>, or <code>.zshrc</code>)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">eval <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>kani init -<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><h3 id="-setup-repository">🎽 Setup repository</h3>
+<ul>
+<li>Choose your <code>git</code> repositories to run <code>kani</code>,</li>
+<li>Change directory to your local <code>git</code> repository,</li>
+<li>Run <code>kani init</code> command for preparing the <code>kani</code> running on the repository.</li>
+</ul>
+<h3 id="-stop-kani-temporarily-in-a-particular-repository">☕ Stop <code>kani</code> temporarily in a particular repository</h3>
+<p>If want to stop recoding command temporary, run <code>kani disable</code> (<code>kani</code> creates a <code>disable</code> file on <code>.kani</code> directory).
+Then, want to start recoding again, run <code>kani enable</code>.</p>
+<h3 id="-stop-kani--permanently-in-a-particular-repository">💔 Stop <code>kani</code>  permanently in a particular repository</h3>
+<p>If typing <code>kani deinit</code> in a particular repository, kani never records anymore.
+After that, typing <code>kani init</code>, <code>kani</code> starts recoding again.</p>
 
 
     <footer class="site-footer">

@@ -87,6 +87,10 @@
 
 <h1>🏠 Home</h1>
 
+<p><a href="https://creativecommons.org/publicdomain/zero/1.0/"><img src="https://img.shields.io/badge/License-CC0--1.0-blue?logo=spdx" alt="License"></a>
+<a href="https://github.com/tamadalab/kani/releases/tag/v1.0.0"><img src="https://img.shields.io/badge/Version-1.0.0-blue.svg" alt="Version"></a></p>
+<p><a href="https://github.com/tamadalab/homebrew-brew"><img src="https://img.shields.io/badge/Homebrew-tamadalab%2Fbrew%2Fkani-green?logo=homebrew" alt="tamada/brew/wildcat"></a></p>
+<p><a href="https://github.com/tamadalab/kani/discussions"><img src="https://img.shields.io/badge/GitHub-Discussion-orange?logo=GitHub" alt="Discussion"></a></p>
 <h2 id="-overview">🗣 Overview</h2>
 <p>Learning the git and GitHub operation is difficult for novice programmers.
 Since even programming is a pretty complicated task, it becomes challenging to consider various kinds of operation except programming, such as good commit, pull requests, etc.
@@ -97,6 +101,26 @@ Also, the recommendation text contains a simple help message for <code>git</code
 From above two manners, we expect the novices accustomed <code>git</code>.</p>
 <p>The proposed system, named <code>kani</code>, records the terminal&rsquo;s executed commands and runs the recommendation engine by each recoding.
 The recommendation engine analyzes the histories of the executed commands with their status codes and statuses of <code>git</code>.</p>
+<h2 id="-description">💬 Description</h2>
+<h3 id="-features">🎐 Features</h3>
+<ul>
+<li>Records the executed command in your terminal in your repository,</li>
+<li>Runs analysis scripts by each command execution,
+<ul>
+<li>Recommends the timing of <code>git commit</code>, and <code>git push</code>.</li>
+</ul>
+</li>
+<li>Shows simple usage of <code>git commit</code> and <code>git push</code>.</li>
+</ul>
+<h3 id="-goal-of-kani">🏁 Goal of <code>kani</code></h3>
+<p><code>kani</code> recommends the operations of git and GitHub from behaviors of novices in the terminal.
+Therefore, the goal of <code>kani</code> is to become unnecessary for novices, like walking assist instrument for babies.
+For this, <code>kani</code> wants to measure git/GitHub operation maturity rates (GOMR) for the novices.
+GOMR would measure by the following methods.</p>
+<ul>
+<li>Matching rates with the behaviors of experts (recording beforehand)</li>
+<li>Following rates of Git flow, GitHub flow, or GitLab flow.</li>
+</ul>
 <h2 id="-概要japanese-version-of-overview-overview">🗣 概要（Japanese version of <a href="#-overview">Overview</a>）</h2>
 <p>プログラミング初学者にとって，Gitの操作の学習はハードルが高い．
 プログラミングだけでも大変であるのに，プログラミング以外のことも考える必要があるためである．

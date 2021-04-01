@@ -85,14 +85,56 @@
   <section class="main-content">
     
   <h1>⚓ Install</h1>
-  <h2 id="-notice">📣 Notice</h2>
-<p><code>kani</code> runs on <a href="https://www.zsh.org/">zsh</a>, not work on <a href="https://www.gnu.org/software/bash/">bash</a>, now.</p>
-<h2 id="-homebrew">🍺 Homebrew</h2>
+  <h3 id="-notice">📣 Notice</h3>
+<p><code>kani</code> runs on <a href="https://www.zsh.org/">zsh</a>, and <a href="https://www.gnu.org/software/bash/">bash</a> only.
+Not work on other shells (<code>csh</code>, <code>ksh</code>, <code>fish</code>, &hellip;).</p>
+<h3 id="-requirements">📌 Requirements</h3>
+<ul>
+<li><a href="https://github.com/rcaloras/bash-preexec">rcaloras/bash-preexec</a>
+<ul>
+<li>Runs <code>kani</code> on bash environment.</li>
+</ul>
+</li>
+</ul>
+<h3 id="-homebrew-macos">🍺 Homebrew (macOS)</h3>
+<p>Type the following two commands, then <code>kani</code> will be installed into your <code>/usr/local/opt/kani</code></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">brew tap tamadalab/brew
 brew install kani
-</code></pre></div><h2 id="-compiling-yourself">💪 Compiling yourself</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">go get github.com/tamadalab/kani
-</code></pre></div>
+</code></pre></div><h3 id="-install-yourself">💪 Install yourself</h3>
+<ul>
+<li>Clone the <code>kani</code> repository from GitHub (<a href="https://github.com/tamadalab/kani"><code>tamadalab/kani</code></a>).
+<ul>
+<li><code>git clone https://github.com/tamadalab/kani.git</code></li>
+</ul>
+</li>
+<li>Move to the cloned <code>kani</code> directory.
+<ul>
+<li><code>cd kani</code></li>
+</ul>
+</li>
+<li>Compile the sources.
+<ul>
+<li><code>make</code></li>
+</ul>
+</li>
+<li>Make distribution file.
+<ul>
+<li><code>make dist</code></li>
+</ul>
+</li>
+<li>Extract the suitable archive file in <code>dist</code> directory in your system.
+<ul>
+<li><code>tar xvfz dist/kani-1.0.0-windows-amd64.tar.gz -C INSTALL_DIR</code></li>
+</ul>
+</li>
+<li>Set <code>KANI_HOME</code> environment value to your <code>INSTALL_DIR</code>
+<ul>
+<li><code>setenv KANI_HOME=${INSTALL_DIR}</code></li>
+<li>the above line should be written in your <code>.bashrc</code> or <code>.zshrc</code>.</li>
+</ul>
+</li>
+</ul>
+
 
     <footer class="site-footer">
   <span class="site-footer-credits">

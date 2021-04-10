@@ -13,7 +13,7 @@ func ExistDir(path string) bool {
 
 func ExistFile(path string) bool {
 	status, err := os.Stat(path)
-	return err == nil && !status.Mode().IsRegular()
+	return err == nil && status.Mode().IsRegular()
 }
 
 func Mkdirs(dirName string) error {

@@ -15,7 +15,7 @@ import (
 
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "git kani init",
+	Short: "kani init",
 	Long:  "initialize kani",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 1 && args[0] == "-" {
@@ -27,12 +27,16 @@ var initCmd = &cobra.Command{
 }
 var deinitCmd = &cobra.Command{
 	Use:   "deinit",
-	Short: "git kani deinit",
+	Short: "kani deinit",
 	Long:  "deinitialize kani",
 	Run: func(cmd *cobra.Command, args []string) {
 		runInitializeKani(deinitializeKani)
 	},
 }
+
+var deinitOpts = struct {
+	deleteAll bool
+}{deleteAll: false}
 
 func runInitializeKani(initializer func(dir string) error) {
 	pwd, err := os.Getwd()
@@ -238,4 +242,5 @@ add-zsh-hook precmd   __kani_precmd_hook
 func init() {
 	RootCmd.AddCommand(initCmd)
 	RootCmd.AddCommand(deinitCmd)
+	deinitCmd.Flags().BoolVar(&deinitOpts.deleteAll, "--delete-all", false, "deletes .kani directory on the project root")
 }

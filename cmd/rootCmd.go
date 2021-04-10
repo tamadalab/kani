@@ -15,7 +15,7 @@ git kani disable    disable kani.`
 
 var RootCmd = &cobra.Command{
 	Use:   "kani",
-	Short: "git kani",
+	Short: "kani",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(helpMessage())

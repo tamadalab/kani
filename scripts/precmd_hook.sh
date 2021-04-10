@@ -17,7 +17,7 @@ function store_db() {
     statusCode=$2
     revision=$(git rev-parse HEAD)
     branch=$(git symbolic-ref HEAD)
-    $script_dir/store_db.sh $PROJECT_DIR/.kani/kani.sqlite "$prevcmd" $statusCode $branch $revision
+    $script_dir/../bin/kani store $PROJECT_DIR/.kani/kani.sqlite "$prevcmd" $statusCode $branch $revision
 }
 
 ${script_dir}/is-target-project.sh

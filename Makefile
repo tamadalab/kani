@@ -1,12 +1,12 @@
 GO := go
 VERSION := 1.0.0
-NAME := kani
+NAME := bin/kani
 DIST := $(NAME)-$(VERSION)
 
 all: $(NAME)
 
-$(NAME): git-kani.go cmd/enableCmd.go cmd/initCmd.go cmd/rootCmd.go
-	$(GO) build -o kani git-kani.go
+$(NAME): git-kani.go cmd/enableCmd.go cmd/initCmd.go cmd/rootCmd.go cmd/storeCmd.go
+	$(GO) build -o $(NAME) git-kani.go
 
 define _createDist
     mkdir -p dist/$(1)_$(2)/$(DIST)

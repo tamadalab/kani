@@ -3,6 +3,8 @@ package cmd
 import (
 	"database/sql"
 	"fmt"
+	"os"
+	"path/filepath"
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/spf13/cobra"
@@ -15,7 +17,7 @@ var storeCmd = &cobra.Command{
 	Long:   "store data to the specified database",
 	Hidden: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		if len(args) != 5 {
+		if len(args) != 4 {
 			return fmt.Errorf("%v: required argument missing", args)
 		}
 		return storeImpl(cmd, args)
@@ -65,18 +67,22 @@ func storeData(db *sql.DB, args []string) error {
 	return err2
 }
 
-// args[0]: file name of database.
-// args[1]: executed command
-// args[2]: status code
-// args[3]: branch name
-// args[4]: revision
+func findDBPath() string {
+	dir := os.Getenv("KANI_PROJECT_DIR")
+	return filepath.Join(dir, ".kani", "kani.sqlite")
+}
+
+// args[0]: executed command
+// args[1]: status code
+// args[2]: branch name
+// args[3]: revision
 func storeImpl(cmd *cobra.Command, args []string) error {
-	db, err := openOrCreateDatabase(args[0])
+	db, err := openOrCreateDatabase(findDBPath())
 	if err != nil {
 		return err
 	}
 	defer db.Close()
-	return storeData(db, args[1:])
+	return storeData(db, args)
 }
 
 func init() {

@@ -204,7 +204,7 @@ func printBashInitializer(kaniHome string) {
 		return
 	}
 	fmt.Printf(`source ~/.bash-preexec.sh
-preexec() {
+__kani_preexec_hook() {
   if [[ ! -e ~/.bash-preexec.sh ]]; then
     echo "%s"
     return
@@ -212,7 +212,7 @@ preexec() {
     %s/scripts/preexec_hook.sh "$1"
   fi
 }
-precmd() {
+__kani_precmd_hook() {
   statusCode=($?)
   if [[ ! -e ~/.bash-preexec.sh ]]; then
     echo "%s"
@@ -221,6 +221,8 @@ precmd() {
     %s/scripts/precmd_hook.sh $statusCode
   fi
 }
+preexec_functions+=(__kani_preexec_hook)
+precmd_functions+=(__kani_precmd_hook)
 `, messageInstallingBashPreexec(), kaniHome, messageInstallingBashPreexec(), kaniHome)
 }
 

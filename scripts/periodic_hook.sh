@@ -7,5 +7,5 @@ if [[ $? -ne 0 ]]; then
     exit 0
 fi
 
-project_dir=$(${script_dir}/find-project-dir.sh)
-echo "hooked periodic on project $project_dir"
+. $script_dir/init_envs.sh
+echo "hooked periodic on project $KANI_PROJECT_DIR"

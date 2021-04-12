@@ -5,7 +5,7 @@ DIST := $(NAME)-$(VERSION)
 
 all: $(NAME)
 
-$(NAME): git-kani.go cmd/enableCmd.go cmd/initCmd.go cmd/rootCmd.go cmd/storeCmd.go
+$(NAME): git-kani.go cmd/enableCmd.go cmd/initCmd.go cmd/rootCmd.go cmd/storeCmd.go cmd/runAnalysisEngines.go
 	$(GO) build -o $(NAME) git-kani.go
 
 define _createDist

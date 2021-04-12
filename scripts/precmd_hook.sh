@@ -26,3 +26,4 @@ fi
 prevcmd=$(find_previous_command)
 # echo "prev cmd: \"$prevcmd\", status: $1" # (デバッグ用)終了ステータスは $1.
 store_db "$prevcmd" $1
+$script_dir/../bin/kani run-analyzers

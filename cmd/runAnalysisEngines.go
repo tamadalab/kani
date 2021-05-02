@@ -110,7 +110,7 @@ func runAnalyzersImpl(analyzers []string) error {
 	}()
 	statuses := receive(ch)
 	err := storeResult(statuses)
-	if err != nil {
+	if err == nil {
 		printGuidesIfNeeded(statuses)
 	}
 	return err
@@ -156,13 +156,16 @@ func printGuides() {
 		return
 	}
 	defer file.Close()
-	io.Copy(file, os.Stdout)
+	_, err = io.Copy(os.Stdout, file)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err.Error())
+	}
 }
 
 func printGuidesIfNeeded(statuses []*analyzerResult) {
 	printFlag := false
 	for _, ar := range statuses {
-		if ar.status == 1 {
+		if ar.status != 0 {
 			printFlag = true
 			break
 		}

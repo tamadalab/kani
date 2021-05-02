@@ -19,18 +19,59 @@ var analysesEngineCmd = &cobra.Command{
 	Long:   "run analyzers of kani",
 	Hidden: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		updateEnvs(args)
 		return runAnalyzers()
 	},
 }
 
+func updateEnvs(args []string) {
+	os.Setenv("KANI_CURRENT_BRANCH", args[0])
+	os.Setenv("KANI_CURRENT_REVISION", args[1])
+}
+
+func collectAnalyzers(path string) ([]string, error) {
+	entries, err := ioutil.ReadDir(path)
+	if err != nil {
+		return []string{}, err
+	}
+	return pickExecutables(path, entries)
+}
+
+func pickExecutables(dir string, entries []fs.FileInfo) ([]string, error) {
+	paths := []string{}
+	for _, entry := range entries {
+		if entry.Mode()&1 == 1 {
+			paths = append(paths, filepath.Join(dir, entry.Name()))
+		}
+	}
+	return paths, nil
+}
+
+func analyzersPaths() ([]string, error) {
+	config, err := os.UserConfigDir()
+	if err != nil {
+		return []string{}, err
+	}
+	return []string{
+		filepath.Join(os.Getenv("KANI_HOME"), "analyses"),
+		filepath.Join(config, "kani", "analyses"),
+	}, nil
+}
+
 func runAnalyzers() error {
-	kaniHome := os.Getenv("KANI_HOME")
-	analyzersDir := filepath.Join(kaniHome, "analyses")
-	entries, err := ioutil.ReadDir(analyzersDir)
+	analyzersDirs, err := analyzersPaths()
 	if err != nil {
 		return err
 	}
-	return runAnalyzersImpl(analyzersDir, entries)
+	analyzers := []string{}
+	for _, path := range analyzersDirs {
+		paths, err := collectAnalyzers(path)
+		if err != nil {
+			return err
+		}
+		analyzers = append(analyzers, paths...)
+	}
+	return runAnalyzersImpl(analyzers)
 }
 
 func execFile(fp string) int {
@@ -42,35 +83,33 @@ func execFile(fp string) int {
 	return command.ProcessState.ExitCode()
 }
 
-func execFileIfNeeded(wg *sync.WaitGroup, ch chan<- int, fp string, entry fs.FileInfo) {
-	if entry.Mode()&1 != 1 {
-		return
-	}
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		ch <- execFile(fp)
-	}()
-}
-
-func runAnalyzersImpl(dir string, entries []fs.FileInfo) error {
+func runAnalyzersImpl(analyzers []string) error {
 	wg := new(sync.WaitGroup)
 	ch := make(chan int)
-	for _, entry := range entries {
-		fp := filepath.Join(dir, entry.Name())
-		execFileIfNeeded(wg, ch, fp, entry)
+	for _, analyzer := range analyzers {
+		wg.Add(1)
+		analyzer := analyzer
+		go func() {
+			defer wg.Done()
+			status := execFile(analyzer)
+			ch <- status
+		}()
 	}
 	go func() {
 		wg.Wait()
 		close(ch)
 	}()
 	statuses := receive(ch)
-	printGuidesIfNeeded(statuses, dir)
+	printGuidesIfNeeded(statuses)
 	return nil
 }
 
-func printGuides(resourceDir string) {
-	guideFile := filepath.Join(resourceDir, "commit_guide.txt")
+func findResourceDir() string {
+	return filepath.Join(os.Getenv("KANI_HOME"), "resources")
+}
+
+func printGuides() {
+	guideFile := filepath.Join(findResourceDir(), "commit_guide.txt")
 	file, err := os.Open(guideFile)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err.Error())
@@ -94,7 +133,7 @@ func printGuides(resourceDir string) {
 	}
 }
 
-func printGuidesIfNeeded(statuses []int, analysesDir string) {
+func printGuidesIfNeeded(statuses []int) {
 	printFlag := false
 	for _, status := range statuses {
 		if status == 1 {
@@ -103,7 +142,7 @@ func printGuidesIfNeeded(statuses []int, analysesDir string) {
 		}
 	}
 	if printFlag {
-		printGuides(filepath.Join(filepath.Dir(analysesDir), "resources"))
+		printGuides()
 	}
 }
 

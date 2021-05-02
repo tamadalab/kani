@@ -26,13 +26,13 @@ def recommend_commit(list):
     for item in list:
         total_lines = total_lines + item.total_lines()
     if len(list) == 1:
-        print(f'Total editted lines of {list[0].fileName} was bigger than threshold lines ({threshold}), therefore, should be commit')
+        print(f'Total editted lines of {list[0].fileName} was bigger than threshold lines ({threshold}), therefore, should commit')
         print(f'total editted lines: {total_lines}')
     elif len(list) == 2:
-        print(f'Total editted lines of {list[0].fileName} and were bigger than threshold lines ({threshold}), therefore, should be commit')
+        print(f'Total editted lines of {list[0].fileName} and {list[1].fileName} were bigger than threshold lines ({threshold}), therefore, should commit')
         print(f'total editted lines: {total_lines}')
     else:
-        print(f'Total editted lines of {list[0].fileName} and other {len(list)} files were bigger than threshold lines ({threshold}), therefore, should be commit')
+        print(f'Total editted lines of {list[0].fileName} and other {len(list)-1} files were bigger than threshold lines ({threshold}), therefore, should commit')
         print(f'total editted lines: {total_lines}')
 
 def build_lines():

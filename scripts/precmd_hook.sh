@@ -11,8 +11,8 @@ function find_previous_command() {
 function store_db() {
     prevcmd="$1"
     statusCode=$2
-    revision=$(git rev-parse HEAD)
-    branch=$(git symbolic-ref HEAD)
+    branch=$3
+    revision=$4
     $script_dir/../bin/kani store "$prevcmd" $statusCode $branch $revision
 }
 
@@ -25,5 +25,7 @@ fi
 . $script_dir/init_envs.sh
 prevcmd=$(find_previous_command)
 # echo "prev cmd: \"$prevcmd\", status: $1" # (デバッグ用)終了ステータスは $1.
-store_db "$prevcmd" $1
-$script_dir/../bin/kani run-analyzers
+revision=$(git rev-parse HEAD)
+branch=$(git symbolic-ref HEAD)
+store_db "$prevcmd" $1 $branch $revision
+$script_dir/../bin/kani run-analyzers $branch $revision

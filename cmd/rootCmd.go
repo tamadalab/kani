@@ -13,6 +13,7 @@ git kani enable     enable kani.
 git kani disable    disable kani.`
 }
 
+// RootCmd shows root command for kani.
 var RootCmd = &cobra.Command{
 	Use:   "kani",
 	Short: "kani",
@@ -26,6 +27,7 @@ func init() {
 	cobra.OnInitialize()
 }
 
+// Execute executes the command.
 func Execute() error {
 	return RootCmd.Execute()
 }

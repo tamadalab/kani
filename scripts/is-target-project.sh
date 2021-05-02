@@ -36,7 +36,7 @@ function is_target_dir() {
 function is_enable_kani() {
     project_dir=$1
     # determine if $project_dir/.kani/disable exist.
-    if [[ -d $project_dir/.kani/disable ]]
+    if [[ -f $project_dir/.kani/disable ]]
     then
         exit 1
     else

@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -166,7 +167,7 @@ func findKaniHome() (string, error) {
 			return kaniHome, nil
 		}
 	}
-	return "", fmt.Errorf("KANI_HOME did not found.")
+	return "", errors.New("KANI_HOME did not found")
 }
 
 func printShellInitializer() {

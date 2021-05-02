@@ -11,6 +11,7 @@ import (
 	"sync"
 
 	"github.com/spf13/cobra"
+	"github.com/tamada/kani/utils"
 )
 
 var analysesEngineCmd = &cobra.Command{
@@ -30,6 +31,9 @@ func updateEnvs(args []string) {
 }
 
 func collectAnalyzers(path string) ([]string, error) {
+	if !utils.ExistDir(path) {
+		return []string{}, nil
+	}
 	entries, err := ioutil.ReadDir(path)
 	if err != nil {
 		return []string{}, err
@@ -48,13 +52,13 @@ func pickExecutables(dir string, entries []fs.FileInfo) ([]string, error) {
 }
 
 func analyzersPaths() ([]string, error) {
-	config, err := os.UserConfigDir()
+	home, err := os.UserHomeDir()
 	if err != nil {
 		return []string{}, err
 	}
 	return []string{
 		filepath.Join(os.Getenv("KANI_HOME"), "analyses"),
-		filepath.Join(config, "kani", "analyses"),
+		filepath.Join(home, ".config", "kani", "analyses"),
 	}, nil
 }
 
@@ -83,16 +87,21 @@ func execFile(fp string) int {
 	return command.ProcessState.ExitCode()
 }
 
+type analyzerResult struct {
+	name   string
+	status int
+}
+
 func runAnalyzersImpl(analyzers []string) error {
 	wg := new(sync.WaitGroup)
-	ch := make(chan int)
+	ch := make(chan *analyzerResult)
 	for _, analyzer := range analyzers {
 		wg.Add(1)
 		analyzer := analyzer
 		go func() {
 			defer wg.Done()
 			status := execFile(analyzer)
-			ch <- status
+			ch <- &analyzerResult{name: analyzer, status: status}
 		}()
 	}
 	go func() {
@@ -100,7 +109,38 @@ func runAnalyzersImpl(analyzers []string) error {
 		close(ch)
 	}()
 	statuses := receive(ch)
-	printGuidesIfNeeded(statuses)
+	err := storeResult(statuses)
+	if err != nil {
+		printGuidesIfNeeded(statuses)
+	}
+	return err
+}
+
+func storeResult(results []*analyzerResult) error {
+	db, err := openDatabase(findDBPath())
+	if err != nil {
+		return err
+	}
+	id, err := findLastID(db)
+	if err != nil {
+		return err
+	}
+	tx, _ := db.Begin()
+	defer tx.Rollback() // rollback will be ignored after commit.
+	stmt, err := tx.Prepare("INSERT INTO analyzers VALUES (?, ?, ?)")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	for _, result := range results {
+		_, err := stmt.Exec(id, result.name, result.status)
+		if err != nil {
+			return err
+		}
+	}
+	if err := tx.Commit(); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -116,27 +156,13 @@ func printGuides() {
 		return
 	}
 	defer file.Close()
-	data := make([]byte, 1024)
-	for {
-		len, err := file.Read(data)
-		if len == 0 {
-			break
-		}
-		if err == io.EOF {
-			fmt.Print(string(data))
-			break
-		}
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s\n", err.Error())
-		}
-		fmt.Print(string(data))
-	}
+	io.Copy(file, os.Stdout)
 }
 
-func printGuidesIfNeeded(statuses []int) {
+func printGuidesIfNeeded(statuses []*analyzerResult) {
 	printFlag := false
-	for _, status := range statuses {
-		if status == 1 {
+	for _, ar := range statuses {
+		if ar.status == 1 {
 			printFlag = true
 			break
 		}
@@ -146,8 +172,8 @@ func printGuidesIfNeeded(statuses []int) {
 	}
 }
 
-func receive(ch <-chan int) []int {
-	statuses := []int{}
+func receive(ch <-chan *analyzerResult) []*analyzerResult {
+	statuses := []*analyzerResult{}
 	for status := range ch {
 		statuses = append(statuses, status)
 	}

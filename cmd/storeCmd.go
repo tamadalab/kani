@@ -40,6 +40,14 @@ func createDatabase(filePath string) (*sql.DB, error) {
 	if err2 != nil {
 		return nil, err2
 	}
+	_, err3 := db.Exec(`CREATE TABLE analyzers (
+		history_id    INTEGER,
+		analyzer_name TEXT    NOT NULL,
+		status_code   INTEGER NOt NULL
+	)`)
+	if err3 != nil {
+		return nil, err3
+	}
 	return db, nil
 }
 
@@ -52,6 +60,19 @@ func openOrCreateDatabase(filePath string) (*sql.DB, error) {
 		return createDatabase(filePath)
 	}
 	return openDatabase(filePath)
+}
+
+func findLastID(db *sql.DB) (int, error) {
+	search := `SELECT id FROM histories ORDER BY id DESC LIMIT 1`
+	rows, err := db.Query(search)
+	if err != nil {
+		return -1, err
+	}
+	defer rows.Close()
+	rows.Next()
+	id := -1
+	err2 := rows.Scan(&id)
+	return id, err2
 }
 
 func storeData(db *sql.DB, args []string) error {

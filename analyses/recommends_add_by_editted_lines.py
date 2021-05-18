@@ -26,11 +26,11 @@ def recommend_commit(list):
     for item in list:
         total_lines = total_lines + item.total_lines()
     if len(list) == 1:
-        print(f'Recommend "git add", since editted lines of {list[0].fileName} was bigger than {threshold} lines. (total: {total_lines})')
+        print(f'Recommend "git add" since editted lines of {list[0].fileName} was bigger than {threshold} lines. (total: {total_lines})')
     elif len(list) == 2:
-        print(f'Recommend "git add", since editted lines of {list[0].fileName} and another file were bigger than {threshold} lines. (total: {total_lines})')
+        print(f'Recommend "git add" since editted lines of {list[0].fileName} and another file were bigger than {threshold} lines. (total: {total_lines})')
     else:
-        print(f'Recommend "git add", since editted lines of {list[0].fileName} and other {len(list)-1} files were bigger than {threshold} lines. (total: {total_lines})')
+        print(f'Recommend "git add" since editted lines of {list[0].fileName} and other {len(list)-1} files were bigger than {threshold} lines. (total: {total_lines})')
 
 def build_lines():
     result = subprocess.run("git diff --numstat | awk -v OFS=, '{print $1,$2,$3}'", shell=True, text=True, stdout=subprocess.PIPE)

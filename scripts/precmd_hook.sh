@@ -28,4 +28,4 @@ prevcmd=$(find_previous_command)
 revision=$(git rev-parse HEAD)
 branch=$(git symbolic-ref HEAD)
 store_db "$prevcmd" $1 $branch $revision
-$script_dir/../bin/kani run-analyzers $branch $revision
+$script_dir/../bin/kani run-analyzers $branch $revision "$prevcmd" $1

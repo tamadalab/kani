@@ -1,7 +1,7 @@
 #! /bin/sh
 
 function recommends_push() {
-    echo "Recommend \"git push\", since all of files are committed, but not pushed."
+    echo "Recommend \"git push\", since all files are committed, but not pushed."
     exit 1
 }
 

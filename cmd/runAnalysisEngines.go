@@ -28,6 +28,8 @@ var analysesEngineCmd = &cobra.Command{
 func updateEnvs(args []string) {
 	os.Setenv("KANI_CURRENT_BRANCH", args[0])
 	os.Setenv("KANI_CURRENT_REVISION", args[1])
+	os.Setenv("KANI_PREV_COMMANDS", args[2])
+	os.Setenv("KANI_PREV_COMMANDS_STATUS", args[3])
 }
 
 func collectAnalyzers(path string) ([]string, error) {

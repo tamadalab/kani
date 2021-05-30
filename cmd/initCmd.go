@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -15,7 +16,7 @@ import (
 
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "git kani init",
+	Short: "kani init",
 	Long:  "initialize kani",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 1 && args[0] == "-" {
@@ -27,12 +28,16 @@ var initCmd = &cobra.Command{
 }
 var deinitCmd = &cobra.Command{
 	Use:   "deinit",
-	Short: "git kani deinit",
+	Short: "kani deinit",
 	Long:  "deinitialize kani",
 	Run: func(cmd *cobra.Command, args []string) {
 		runInitializeKani(deinitializeKani)
 	},
 }
+
+var deinitOpts = struct {
+	deleteAll bool
+}{deleteAll: false}
 
 func runInitializeKani(initializer func(dir string) error) {
 	pwd, err := os.Getwd()
@@ -48,7 +53,7 @@ func runInitializeKani(initializer func(dir string) error) {
 	if err := initializer(projectDir); err != nil {
 		fmt.Println(err.Error())
 	}
-	fmt.Println("このプロジェクトをツールの対象に設定しました")
+	fmt.Printf("%s: set as the target project of kani", projectDir)
 }
 
 func createKaniDirectory(projectDir string) error {
@@ -148,8 +153,8 @@ func findKaniHome() (string, error) {
 	entries := []string{
 		os.Getenv("KANI_HOME"),
 		"/usr/local/opt/kani",
-		"$(HOME)/go/src/github.com/tamada/kani",
 		"$(HOME)/go/src/github.com/tamadalab/kani",
+		"$(HOME)/go/src/github.com/tamada/kani",
 	}
 	homeDir, err := homedir.Dir()
 	if err != nil {
@@ -162,7 +167,7 @@ func findKaniHome() (string, error) {
 			return kaniHome, nil
 		}
 	}
-	return "", fmt.Errorf("KANI_HOME did not found.")
+	return "", errors.New("KANI_HOME did not found")
 }
 
 func printShellInitializer() {
@@ -200,7 +205,7 @@ func printBashInitializer(kaniHome string) {
 		return
 	}
 	fmt.Printf(`source ~/.bash-preexec.sh
-preexec() {
+__kani_preexec_hook() {
   if [[ ! -e ~/.bash-preexec.sh ]]; then
     echo "%s"
     return
@@ -208,7 +213,7 @@ preexec() {
     %s/scripts/preexec_hook.sh "$1"
   fi
 }
-precmd() {
+__kani_precmd_hook() {
   statusCode=($?)
   if [[ ! -e ~/.bash-preexec.sh ]]; then
     echo "%s"
@@ -217,6 +222,8 @@ precmd() {
     %s/scripts/precmd_hook.sh $statusCode
   fi
 }
+preexec_functions+=(__kani_preexec_hook)
+precmd_functions+=(__kani_precmd_hook)
 `, messageInstallingBashPreexec(), kaniHome, messageInstallingBashPreexec(), kaniHome)
 }
 
@@ -238,4 +245,5 @@ add-zsh-hook precmd   __kani_precmd_hook
 func init() {
 	RootCmd.AddCommand(initCmd)
 	RootCmd.AddCommand(deinitCmd)
+	deinitCmd.Flags().BoolVar(&deinitOpts.deleteAll, "--delete-all", false, "deletes .kani directory on the project root")
 }

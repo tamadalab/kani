@@ -1,12 +1,11 @@
 #! /bin/sh
 
-# 現在のディレクトリが kani の実行対象プロジェクトであるかを判断する．
-# このコマンドを実行後の終了ステータス（`$?`）で判断する．
-#     0なら対象プロジェクト，
-#     1なら対象プロジェクトだけど実行をoffにしている状態，
-#     2なら対象プロジェクトじゃないこと，
-#     3なら.gitディレクトリが見つからないこと
-# を表す．
+# This script determines if the current directory is the sub-directory in the target project of kani.
+# The status code of this script means that:
+#     0: the current directory is the sub-directory in the target project.
+#     1: the current directory is target project, but disable flag is on.
+#     2: the current directory is not target project.
+#     3: .git directory not found.
 
 GREP=grep
 # GREP=rg
@@ -21,14 +20,14 @@ function is_git_dir_not_found() {
 
 function is_target_dir() {
     project_dir=$1
-    if [[ ! -e "$HOME/.config/kani/projects" ]] # ~/.config/kani/projects が存在しない場合
+    if [[ ! -e "$HOME/.config/kani/projects" ]] # ~/.config/kani/projects not exist
     then
         exit 2
     fi
 
-    # does include project_dir in ~/.config/kani/projects?
+    # determine if ~/.config/kani/projects contains project_dir.
     grep --silent $project_dir $HOME/.config/kani/projects
-    if [[ $? -ne 0 ]] # not exist
+    if [[ $? -ne 0 ]] # not found.
     then
         exit 2
     fi
@@ -36,8 +35,8 @@ function is_target_dir() {
 
 function is_enable_kani() {
     project_dir=$1
-    # does exists $project_dir/.kani/disable?
-    if [[ -d $project_dir/.kani/disable ]]
+    # determine if $project_dir/.kani/disable exist.
+    if [[ -f $project_dir/.kani/disable ]]
     then
         exit 1
     else

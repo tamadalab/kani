@@ -1,0 +1,36 @@
+baseURL = "https://tamadalab.github.io/kani"
+languageCode = "en-us"
+title = "kani"
+enableEmoji = true
+theme = "cayman-hugo-theme"
+
+[params]
+    googleAnalytics = ""
+    project_name = "kani"
+    project_tagline = "Supporting git/GitHub operations for novice developers"
+    project_logo = "images/kani.svg"
+    dateFormat = "2006-01-02"
+    footer = "[![GitHub](https://img.shields.io/badge/GitHub-tamadalab/kani-blueviolet.svg?logo=github)](https://github.com/tamadalab/kani) Made with [Hugo](https://gohugo.io/). Theme by [Cayman](https://github.com/zwbetz-gh/cayman-hugo-theme). Deployed to [GitHub Pages](https://pages.github.com/)"
+    katex = true
+
+[menu]
+  [[menu.nav]]
+    name = ":house: Home"
+    url = "/"
+    weight = 1
+  [[menu.nav]]
+    name = ":anchor: Install"
+    url = "/install"
+    weight = 2
+  [[menu.nav]]
+    name = ":runner: Usage"
+    url = "/usage"
+    weight = 3
+  [[menu.nav]]
+    name = ":red_car: How to Work"
+    url = "/how_to_work"
+    weight = 4
+  [[menu.nav]]
+    name = ":smile: About"
+    url = "/about"
+    weight = 5

@@ -1,14 +1,16 @@
 #! /bin/zsh
 
 script_dir=$(dirname $0)
-PROJECT_DIR=$($script_dir/find-project-dir.sh)
 
-# .kani/prev_cmd に前回実行したコマンドを記録しておく．
+. $script_dir/init_envs.sh
+
+# record the previous command to .kani/prev_cmd.
 function record_command() {
     if [[ $# -eq 0 ]]; then
         return
     fi
-    echo "$@" > $PROJECT_DIR/.kani/prev_cmd
+    echo "$@" > $KANI_PROJECT_DIR/.kani/prev_cmd
+    # echo "recoding: last update $datecmd"
 }
 
 

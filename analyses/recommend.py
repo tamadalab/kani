@@ -4,6 +4,12 @@ import subprocess
 import csv
 import sys
 
+class EditedLines:
+  lines = 0
+  fileName
+  def __init__(self, fileName, lines):
+    self.fileName = fileName
+    self.lines = lines
 
 # カレントディレクトリのファイルを検索し，ファイル行数を取得する．
 PATH = '/usr/local/opt/kani/analyses/'
@@ -24,9 +30,9 @@ def search_analyses_file():
       if total_line > criteria:
         show_message(line[2],total_line,criteria)
         flag = 1
-      
+
     if flag == 1:
-      f = open(f'{PATH}guide_commit.txt','r',encoding='UTF-8')
+      f = open(f'{PATH}commit_guide.txt','r',encoding='UTF-8')
       data = f.read()
       print(data)
       f.close()
@@ -40,7 +46,7 @@ def search_error_count():
   count = int(sys.argv[1])
   if count >= 3:
     print('連続したエラーが修正されたので，Commitをお勧めします．')
-    return 1  
+    return 1
   else:
     return 0
 

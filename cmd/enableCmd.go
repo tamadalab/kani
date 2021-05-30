@@ -11,7 +11,7 @@ import (
 
 var enableCmd = &cobra.Command{
 	Use:   "enable",
-	Short: "git kani enable",
+	Short: "kani enable",
 	Long:  "enable kani",
 	Run: func(cmd *cobra.Command, args []string) {
 		disableKani(false)
@@ -20,7 +20,7 @@ var enableCmd = &cobra.Command{
 
 var disableCmd = &cobra.Command{
 	Use:   "disable",
-	Short: "git kani disable",
+	Short: "kani disable",
 	Long:  "disable kani",
 	Run: func(cmd *cobra.Command, args []string) {
 		disableKani(true)
@@ -51,10 +51,10 @@ func disableKani(flag bool) {
 			fmt.Println(err.Error())
 			return
 		}
-		fmt.Println("kaniが無効化されました．")
+		fmt.Println("kani: disable")
 	} else {
 		os.Remove(disableFile)
-		fmt.Println("kaniが有効になりました．")
+		fmt.Println("kani: enable")
 	}
 }
 

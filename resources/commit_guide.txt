@@ -1,6 +1,6 @@
-======================================= commit guides ========================================
-git status                       shows the status of the current branch of the repository
-git branch                       shows the branch list and the current branch
-git add <FILE_NAMEs...>          adds specified files to the index (commit targets)
-git commit -m "MESSAGE"          commits the changes of the files in the index
-git push origin <BRANCH_NAME>    sends the content of the specified branch to the remote repository (origin)
+================================== git コマンド簡易ヘルプ ===================================
+git status                       現在のリポジトリの状態を取得する．
+git branch                       現在のブランチ名を取得する．
+git add <FILE_NAMEs...>          リポジトリのインデックスに変更したファイルを指定して追加する．
+git commit -m "MESSAGE"          インデックス内のファイルの変更をコミットする．
+git push origin <BRANCH_NAME>    現在のブランチの内容をリモートリポジトリ（origin）に送る．

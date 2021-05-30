@@ -6,6 +6,8 @@ import csv
 import sys
 import os
 
+recommend_message1 = f''
+
 home = os.environ['KANI_HOME']
 threshold = 3
 
@@ -20,6 +22,15 @@ class EdittedLine:
 
     def should_commit(self, threshold):
         return self.total_lines() > threshold
+
+def recommend_commit_ja(list):
+    total_lines = 0
+    for item in list:
+        total_lines = total_lines + item.total_lines()
+    if len(list) == 1:
+        print(f'{list[0].fileName} の編集行数が{threshold}行を超えたので，"git add" を実行しましょう（合計編集行数: {total_lines}）．')
+    else:
+        print(f'{list[0].fileName} ほか{len(list)-1}ファイルの編集行数が{threshold}行を超えたので，"git add" を実行しましょう（合計編集行数: {total_lines}）．')
 
 def recommend_commit(list):
     total_lines = 0
@@ -43,5 +54,5 @@ def build_lines():
 
 list = build_lines()
 if len(list) > 0:
-    recommend_commit(list)
+    recommend_commit_ja(list)
     sys.exit(1)

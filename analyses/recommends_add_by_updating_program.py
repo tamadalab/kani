@@ -5,6 +5,9 @@ import os
 import csv
 import sys
 
+recommend_message = f'Recommend "git add" since it looks the working program ran well.'
+recommend_message_ja = f'作業中のプログラムのテストが終われば，"git add"を実行しましょう．'
+
 targetCommands = ['javac', 'gcc', 'clang', 'go build']
 
 home = os.environ['KANI_HOME']
@@ -83,7 +86,7 @@ def is_exec():
     return prevcmd.find(execfile) >= 0
 
 def recommends_add():
-    print(f'Recommend "git add" since it looks the working program ran well.')
+    print(recommend_message_ja)
     sys.exit(1)
 
 def reset_all():

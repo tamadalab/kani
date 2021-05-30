@@ -1,5 +1,10 @@
 #! /bin/sh
 
+function recommends_push_ja() {
+    echo "全てのファイルがコミットされたため，\"git push\"を実行し，変更内容をサーバに送りましょう．"
+    exit 1
+}
+
 function recommends_push() {
     echo "Recommend \"git push\", since all files are committed, but not pushed."
     exit 1

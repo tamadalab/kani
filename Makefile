@@ -10,7 +10,7 @@ $(NAME): git-kani.go cmd/enableCmd.go cmd/initCmd.go cmd/rootCmd.go cmd/storeCmd
 
 define _createDist
     mkdir -p dist/$(1)_$(2)/$(DIST)
-    GOOS=$1 GOARCH=$2 go build -o dist/$(1)_$(2)/$(DIST)/bin/$(NAME)$(3) cmd/*.go
+    GOOS=$1 GOARCH=$2 go build -o dist/$(1)_$(2)/$(DIST)/bin/$(NAME)$(3) git-kani.go
     cp -r README.md LICENSE analyses scripts resources dist/$(1)_$(2)/$(DIST)
     cp -r docs/public dist/$(1)_$(2)/$(DIST)/docs
     tar cfz dist/$(DIST)_$(1)_$(2).tar.gz -C dist/$(1)_$(2) $(DIST)

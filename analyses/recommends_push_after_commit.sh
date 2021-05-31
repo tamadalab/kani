@@ -25,7 +25,7 @@ currentBranch=$(git rev-parse --abbrev-ref HEAD)
 remoteBranch=$(git branch -a | grep remotes | grep $currentBranch | xargs)
 if [[ remoteBranch == "" ]]; then
     # the user does not push the current branch, yet.
-    recommends_push
+    recommends_push_ja
 fi
 
 # find the commit count of not pushed.
@@ -33,7 +33,7 @@ commitCount=$(git log --oneline $remoteBranch..$currentBranch | wc -l | xargs)
 
 if [[ commitCount -ne 0 ]]; then
     # this repository has not pushed commits.
-    recommends_push
+    recommends_push_ja
 fi
 
 exit 0

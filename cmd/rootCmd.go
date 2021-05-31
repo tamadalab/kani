@@ -7,10 +7,10 @@ import (
 )
 
 func helpMessage() string {
-	return `git kani init       initialize kani for the current project.
-git kani deinit     deinitialize kani of the project.
-git kani enable     enable kani.
-git kani disable    disable kani.`
+	return `kani init       initialize kani for the current project.
+kani deinit     deinitialize kani of the project.
+kani enable     enable kani.
+kani disable    disable kani.`
 }
 
 // RootCmd shows root command for kani.

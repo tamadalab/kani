@@ -15,9 +15,10 @@ kani disable    disable kani.`
 
 // RootCmd shows root command for kani.
 var RootCmd = &cobra.Command{
-	Use:   "kani",
-	Short: "kani",
-	Long:  "",
+	Use:     "kani",
+	Short:   "kani",
+	Long:    "",
+	Version: "1.0.3",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(helpMessage())
 	},

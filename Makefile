@@ -1,5 +1,5 @@
 GO := go
-VERSION := 1.0.1
+VERSION := 1.0.3
 NAME := kani
 DIST := $(NAME)-$(VERSION)
 

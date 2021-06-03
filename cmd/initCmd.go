@@ -185,28 +185,49 @@ func printShellInitializer() {
 
 func messageInstallingBashPreexec() string {
 	return `kani on bash requires rcaloras/bash-preexec (https://github.com/rcaloras/bash-preexec)
-Please run 'curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'`
+Please run 'curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh'
+or 'brew install bash-preexec'.`
 }
 
-func isInstalledBashPreexec() bool {
-	home, err := homedir.Dir()
-	if err != nil {
-		return false
+func installedBashPreexec() (bool, string) {
+	locations := []string{ "~/.bash-preexec.sh", "/usr/local/etc/profile.d/bash-preexec.sh", }
+	for _, location := range locations {
+		if isRegularFile(location) {
+			return true, location
+		}
 	}
-	path := filepath.Join(home, ".bash-preexec.sh")
-	stat, err := os.Stat(path)
+	return false, ""
+}
+
+func isRegularFile(location string) bool {
+	if strings.HasPrefix(location, "~") {
+		home, err := homedir.Dir()
+		if err != nil {
+			return false
+		}
+		return isRegularFile(strings.ReplaceAll(location, "~", home))
+	}
+	stat, err := os.Stat(location)
 	return err == nil && stat.Mode().IsRegular()
 }
 
+func bashPreexec(location string) string {
+	if location == "/usr/local/etc/profile.d/bash-preexec.sh" {
+		return ""
+	}
+	return fmt.Sprintf("source %s", location)
+}
+
 func printBashInitializer(kaniHome string) {
-	if !isInstalledBashPreexec() {
+	ok, location := installedBashPreexec()
+	if !ok {
 		fmt.Printf(`echo "%s"
 `, messageInstallingBashPreexec())
 		return
 	}
-	fmt.Printf(`source ~/.bash-preexec.sh
+	fmt.Printf(`%s
 __kani_preexec_hook() {
-  if [[ ! -e ~/.bash-preexec.sh ]]; then
+  if [[ ! -e %s ]]; then
     echo "%s"
     return
   else
@@ -215,7 +236,7 @@ __kani_preexec_hook() {
 }
 __kani_precmd_hook() {
   statusCode=($?)
-  if [[ ! -e ~/.bash-preexec.sh ]]; then
+  if [[ ! -e %s ]]; then
     echo "%s"
     return
   else
@@ -224,7 +245,7 @@ __kani_precmd_hook() {
 }
 preexec_functions+=(__kani_preexec_hook)
 precmd_functions+=(__kani_precmd_hook)
-`, messageInstallingBashPreexec(), kaniHome, messageInstallingBashPreexec(), kaniHome)
+`, bashPreexec(location), location, messageInstallingBashPreexec(), kaniHome, location, messageInstallingBashPreexec(), kaniHome)
 }
 
 func printZshInitializer(kaniHome string) {

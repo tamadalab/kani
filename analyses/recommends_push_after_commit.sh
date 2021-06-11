@@ -22,7 +22,7 @@ fi
 currentBranch=$(git rev-parse --abbrev-ref HEAD)
 
 # get remote branch name
-remoteBranch=$(git branch -a | grep remotes | grep $currentBranch | xargs)
+remoteBranch=$(git branch -r --format "%(refname)" | grep $currentBranch)
 if [[ remoteBranch == "" ]]; then
     # the user does not push the current branch, yet.
     recommends_push_ja

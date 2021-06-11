@@ -18,18 +18,27 @@ The directory layout of `KANI_HOME` is like below.
 kani
 ├── README.md
 ├── analyses
-│   ├── recommend.py (decision of recommendation)
-│   └── commit_guide.txt (recommendation text)
+│   ├── recommend.py
+│   ├── recommends_add_by_editted_lines.py
+│   ├── recommends_add_by_updating_program.py
+│   ├── recommends_commit_by_all_files_staged.sh
+│   └── recommends_push_after_commit.sh
+├── resources/
+│   ├── commit_guide.txt
+│   ├── commit_guide_en.txt
+│   ├── commit_guide_ja.txt
+│   └── commit_guide_legacy.txt
+├── docs      # documents of kani
 ├── bin
-│   └── git-kani
-└── scripts # utility scripts (includes hook function)
+│   └── kani
+└── scripts   # utility scripts (includes hook function)
     ├── chpwd_hook.sh
-    ├── periodic_hook.sh
-    ├── precmd_hook.sh
-    ├── preexec_hook.sh
-    ├── find-project-dir.sh  # script for finding the project root from the current directory
+    ├── find-project-dir.sh  # script for finding the project root from the current directory
+    ├── init_envs.sh
     ├── is-target-project.sh # script for checking the current directory is the target of kani
-    └── store_db.sh          # script for storing the command line histories into the database.
+    ├── periodic_hook.sh
+    ├── precmd_hook.sh
+    └── preexec_hook.sh
 ```
 
 ### `.kani` on the project root.

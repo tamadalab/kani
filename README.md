@@ -3,7 +3,7 @@
 A tool for supporting git/GitHub operation for the novice developers.
 
 [![License](https://img.shields.io/badge/License-CC0--1.0-blue?logo=spdx)](https://creativecommons.org/publicdomain/zero/1.0/)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/tamadalab/kani/releases/tag/v1.0.0)
+[![Version](https://img.shields.io/badge/Version-1.1.0-blue.svg)](https://github.com/tamadalab/kani/releases/tag/v1.1.0)
 [![DOI](https://zenodo.org/badge/285447906.svg)](https://zenodo.org/badge/latestdoi/285447906)
 
 [![tamada/brew/kani](https://img.shields.io/badge/Homebrew-tamadalab%2Fbrew%2Fkani-green?logo=homebrew)](https://github.com/tamadalab/homebrew-brew)

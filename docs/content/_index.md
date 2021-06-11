@@ -3,7 +3,7 @@ title: ":house: Home"
 ---
 
 [![License](https://img.shields.io/badge/License-CC0--1.0-blue?logo=spdx)](https://creativecommons.org/publicdomain/zero/1.0/)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/tamadalab/kani/releases/tag/v1.0.0)
+[![Version](https://img.shields.io/badge/Version-1.1.0-blue.svg)](https://github.com/tamadalab/kani/releases/tag/v1.0.0)
 
 [![tamada/brew/wildcat](https://img.shields.io/badge/Homebrew-tamadalab%2Fbrew%2Fkani-green?logo=homebrew)](https://github.com/tamadalab/homebrew-brew)
 

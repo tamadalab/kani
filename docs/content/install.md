@@ -21,6 +21,9 @@ brew tap tamadalab/brew
 brew install kani
 ```
 
+Then, write snippet `eval "$(kani init -)"` into your `~/.bashrc` or `~/.zshrc`.
+Next, you should restart your shell session by executing `exec $(SHELL) -l`.
+
 ### :muscle: Install yourself
 
 * Clone the `kani` repository from GitHub ([`tamadalab/kani`](https://github.com/tamadalab/kani)).

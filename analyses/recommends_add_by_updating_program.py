@@ -42,9 +42,6 @@ def execfile_java_parser(command):
             return i.replace('.java', '')
 
 def execfile_default_parser(command):
-    index = command.find('-o ')
-    if index < 0:
-        return 'a.out'
     cs = command.split(' ')
     for i in range(0, len(cs)):
         if cs[i] == '-o':
@@ -102,6 +99,10 @@ def reset_all():
 targets = list(filter(lambda x: x.is_target(prevcmd),
     map(lambda x: Target(x[0], x[1]), [('javac', execfile_java_parser), ('gcc', execfile_default_parser), ('clang', execfile_default_parser), ('go build', execfile_default_parser)])))
 
+if len(targets) == 1:
+    store_cmd(targets[0], prevcmd)
+    store_exec(targets[0], prevcmd)
+    update_recommendation_mode(False) # 推薦状態を off．
 if is_exec():
     # TODO 終了ステータスが0なら，add を推薦．
     # 推薦状態を on．終了ステータスが0以外なら推薦状態を off．
@@ -110,10 +111,6 @@ if is_exec():
         recommends_add()
     else:
         update_recommendation_mode(False)
-elif len(targets) == 1:
-    store_cmd(targets[0], prevcmd)
-    store_exec(targets[0], prevcmd)
-    update_recommendation_mode(False) # 推薦状態を off．
 elif prevcmd.startswith('git add'):
     reset_all()
 elif is_recommendation_mode_on():

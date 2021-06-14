@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/tamada/kani/utils"
 )
@@ -53,7 +52,7 @@ func runInitializeKani(initializer func(dir string) error) {
 	if err := initializer(projectDir); err != nil {
 		fmt.Println(err.Error())
 	}
-	fmt.Printf("%s: set as the target project of kani", projectDir)
+	fmt.Printf("%s: set as the target project of kani\n", projectDir)
 }
 
 func createKaniDirectory(projectDir string) error {
@@ -156,7 +155,7 @@ func findKaniHome() (string, error) {
 		"$(HOME)/go/src/github.com/tamadalab/kani",
 		"$(HOME)/go/src/github.com/tamada/kani",
 	}
-	homeDir, err := homedir.Dir()
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return "", err
 	}
@@ -190,7 +189,7 @@ or 'brew install bash-preexec'.`
 }
 
 func installedBashPreexec() (bool, string) {
-	locations := []string{ "~/.bash-preexec.sh", "/usr/local/etc/profile.d/bash-preexec.sh", }
+	locations := []string{"~/.bash-preexec.sh", "/usr/local/etc/profile.d/bash-preexec.sh"}
 	for _, location := range locations {
 		if isRegularFile(location) {
 			return true, location
@@ -201,7 +200,7 @@ func installedBashPreexec() (bool, string) {
 
 func isRegularFile(location string) bool {
 	if strings.HasPrefix(location, "~") {
-		home, err := homedir.Dir()
+		home, err := os.UserHomeDir()
 		if err != nil {
 			return false
 		}
@@ -213,7 +212,7 @@ func isRegularFile(location string) bool {
 
 func bashPreexec(location string) string {
 	if location == "/usr/local/etc/profile.d/bash-preexec.sh" {
-		return ""
+		return "[ -f /usr/local/etc/profile.d/bash-preexec.sh ] && . /usr/local/etc/profile.d/bash-preexec.sh"
 	}
 	return fmt.Sprintf("source %s", location)
 }

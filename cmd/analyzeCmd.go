@@ -230,13 +230,13 @@ func printRecommendationFollowingRates(has []*historyAnalyzer, names []string) {
 		anyOk := false
 		anyOkDenominator := false
 		for _, name := range names {
-			_, ok1 := ha.m[name]
+			value := ha.m[name].PerformCode
 			ok2 := ha.a[name]
-			if ok1 && ok2 {
+			if value != 0 && ok2 {
 				counts[name] = counts[name] + 1
 				anyOk = true
 			}
-			if ok1 {
+			if value != 0 {
 				denominators[name] = denominators[name] + 1
 				anyOkDenominator = true
 			}
@@ -248,12 +248,12 @@ func printRecommendationFollowingRates(has []*historyAnalyzer, names []string) {
 			denominator++
 		}
 	}
-	fmt.Printf("recommendation following rates,%f", float64(countAll)/float64(len(has)))
+	fmt.Printf("recommendation following rates,%d,%f", len(has), float64(countAll)/float64(len(has)))
 	for _, name := range names {
 		fmt.Printf(",%f", float64(counts[name])/float64(len(has)))
 	}
 	fmt.Println()
-	fmt.Printf("recommendation following rates (recommended),%f", float64(countAll)/float64(denominator))
+	fmt.Printf("recommendation following rates (recommended),%d,%f", denominator, float64(countAll)/float64(denominator))
 	for _, name := range names {
 		fmt.Printf(",%f", float64(counts[name])/float64(denominators[name]))
 	}
@@ -266,8 +266,8 @@ func printRecommendationRates(has []*historyAnalyzer, names []string) {
 	for _, ha := range has {
 		anyOk := false
 		for _, name := range names {
-			_, ok := ha.m[name]
-			if ok {
+			value := ha.m[name].PerformCode
+			if value != 0 {
 				counts[name] = counts[name] + 1
 				anyOk = true
 			}
@@ -276,7 +276,11 @@ func printRecommendationRates(has []*historyAnalyzer, names []string) {
 			countAll++
 		}
 	}
-	fmt.Printf("recommendation rates,%f", float64(countAll)/float64(len(has)))
+	fmt.Printf("recommendation count,%d,%d", len(has), countAll)
+	for _, name := range names {
+		fmt.Printf(",%d", counts[name])
+	}
+	fmt.Printf("\nrecommendation rates,%d,%f", len(has), float64(countAll)/float64(len(has)))
 	for _, name := range names {
 		fmt.Printf(",%f", float64(counts[name])/float64(len(has)))
 	}
@@ -285,7 +289,6 @@ func printRecommendationRates(has []*historyAnalyzer, names []string) {
 
 func analyzeDatabase(cmd *cobra.Command, args []string) error {
 	path := findDatabasePath(opts)
-	fmt.Printf("findDatabasePath(): %s\n", path)
 	histories, analyzers, err := readAllData(path)
 	if err != nil {
 		return fmt.Errorf("readAllData(%s) failed: %w", path, err)

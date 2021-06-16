@@ -18,7 +18,7 @@ var RootCmd = &cobra.Command{
 	Use:     "kani",
 	Short:   "kani",
 	Long:    "",
-	Version: "1.1.1",
+	Version: "1.2.0",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(helpMessage())
 	},

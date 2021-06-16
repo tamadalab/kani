@@ -19,7 +19,9 @@ const formatter string = "2006-01-02 15:04:05"
 var jst = time.FixedZone("Asia/Tokyo", 9*60*60)
 
 type options struct {
-	dbfile string
+	dbfile      string
+	userName    string
+	projectName string
 }
 
 var opts = &options{}
@@ -117,7 +119,17 @@ func extractProjectNameFromPath(path string) string {
 	return name
 }
 
+func findProjectName(path string) string {
+	if opts.projectName != "" {
+		return opts.projectName
+	}
+	return extractProjectNameFromPath(path)
+}
+
 func findUserName() string {
+	if opts.userName != "" {
+		return opts.userName
+	}
 	u, err := user.Current()
 	if err != nil {
 		return "unknown"
@@ -130,7 +142,7 @@ func readAllData(path string) ([]*history, []*analyzer, error) {
 	if err != nil {
 		return nil, nil, fmt.Errorf("openDatabase failed: %w", err)
 	}
-	project := extractProjectNameFromPath(path)
+	project := findProjectName(path)
 	userName := findUserName()
 	histories, err := readAllHistories(db, project, userName)
 	if err != nil {
@@ -300,5 +312,7 @@ func findDatabasePath(opts *options) string {
 func init() {
 	RootCmd.AddCommand(analyzeCmd)
 	flags := analyzeCmd.Flags()
+	flags.StringVarP(&opts.projectName, "project", "p", "", "specifies the project name")
+	flags.StringVarP(&opts.userName, "user", "u", "", "specifies the user name")
 	flags.StringVarP(&opts.dbfile, "file", "f", "", "specifies the sqlite database file")
 }
